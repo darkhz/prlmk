@@ -1,4 +1,4 @@
-/* Copyright (c) 2014-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -242,7 +242,7 @@ static struct fg_mem_setting settings[FG_MEM_SETTING_MAX] = {
 	SETTING(SOFT_COLD,       0x454,   0,      150),
 	SETTING(SOFT_HOT,        0x454,   1,      450),
 	SETTING(HARD_COLD,       0x454,   2,      0),
-	SETTING(HARD_HOT,        0x454,   3,      550),
+	SETTING(HARD_HOT,        0x454,   3,      600),
 	SETTING(RESUME_SOC,      0x45C,   1,      0),
 	SETTING(BCL_LM_THRESHOLD, 0x47C,   2,      50),
 	SETTING(BCL_MH_THRESHOLD, 0x47C,   3,      752),
@@ -644,7 +644,6 @@ struct fg_chip {
 	bool			batt_info_restore;
 	bool			*batt_range_ocv;
 	int			*batt_range_pct;
-	char			*debug_dump;
 };
 
 /* FG_MEMIF DEBUGFS structures */
@@ -715,7 +714,6 @@ static char *fg_supplicants[] = {
 	"fg_adc"
 };
 
-static void dump_debug(struct work_struct *work);
 #define DEBUG_PRINT_BUFFER_SIZE 64
 static void fill_string(char *str, size_t str_len, u8 *buf, int buf_len)
 {
@@ -1343,15 +1341,10 @@ static int fg_check_ima_exception(struct fg_chip *chip, bool check_hw_sts)
 
 	if (run_err_clr_seq) {
 		ret = fg_run_iacs_clear_sequence(chip);
-		if (ret) {
-			pr_err("Error clearing IMA exception ret=%d\n", ret);
-			return ret;
-		}
-
-		if (check_hw_sts)
-			return 0;
-		else
+		if (!ret)
 			return -EAGAIN;
+		else
+			pr_err("Error clearing IMA exception ret=%d\n", ret);
 	}
 
 	return rc;
@@ -2028,11 +2021,6 @@ static void fg_handle_battery_insertion(struct fg_chip *chip)
 }
 
 
-/*static int soc_to_setpoint(int soc)
-{
-	return DIV_ROUND_CLOSEST(soc * 255, 100);
-}*/
-
 static void batt_to_setpoint_adc(int vbatt_mv, u8 *data)
 {
 	int val;
@@ -2246,15 +2234,21 @@ static int get_monotonic_soc_raw(struct fg_chip *chip)
 #define FULL_SOC_RAW		0xFF
 static int get_prop_capacity(struct fg_chip *chip)
 {
-	int msoc, rc;
+	int msoc, rc, soc_tmp;
 	bool vbatt_low_sts;
 
 	if (chip->use_last_soc && chip->last_soc) {
 		if (chip->last_soc == FULL_SOC_RAW)
 			return FULL_CAPACITY;
-		return DIV_ROUND_CLOSEST((chip->last_soc - 1) *
+		soc_tmp = DIV_ROUND_CLOSEST((chip->last_soc - 1) *
 				(FULL_CAPACITY - 2),
 				FULL_SOC_RAW - 2) + 1;
+	if (chip->status == POWER_SUPPLY_STATUS_FULL && soc_tmp == 99) {
+		soc_tmp = 100;
+		pr_err("Full, Update soc_tmp.\n");
+	}
+
+	return soc_tmp;
 	}
 
 	if (chip->battery_missing)
@@ -4030,7 +4024,7 @@ static void status_change_work(struct work_struct *work)
 
 	if (chip->status == POWER_SUPPLY_STATUS_FULL) {
 		if (capacity >= 99 && chip->hold_soc_while_full
-					&& (chip->health == POWER_SUPPLY_HEALTH_GOOD || chip->health == POWER_SUPPLY_HEALTH_COOL)) {
+				&& (chip->health == POWER_SUPPLY_HEALTH_GOOD || chip->health == POWER_SUPPLY_HEALTH_COOL)) {
 			if (fg_debug_mask & FG_STATUS)
 				pr_info("holding soc at 100\n");
 			chip->charge_full = true;
@@ -4483,8 +4477,6 @@ static bool fg_validate_battery_info(struct fg_chip *chip)
 	if (batt_soc != 0 && batt_soc != FULL_SOC_RAW)
 		batt_soc = DIV_ROUND_CLOSEST((batt_soc - 1) *
 				(FULL_CAPACITY - 2), FULL_SOC_RAW - 2) + 1;
-	if (batt_soc == FULL_SOC_RAW)
-		chip->batt_info[BATT_INFO_SOC] = 100;
 
 	if (*chip->batt_range_ocv && chip->batt_max_voltage_uv > 1000)
 		delta_pct =  DIV_ROUND_CLOSEST(abs(batt_volt_mv -
@@ -4553,7 +4545,6 @@ static enum power_supply_property fg_power_props[] = {
 	POWER_SUPPLY_PROP_RESISTANCE,
 	POWER_SUPPLY_PROP_RESISTANCE_ID,
 	POWER_SUPPLY_PROP_BATTERY_TYPE,
-	POWER_SUPPLY_PROP_DUMP_SRAM,
 	POWER_SUPPLY_PROP_UPDATE_NOW,
 	POWER_SUPPLY_PROP_ESR_COUNT,
 	POWER_SUPPLY_PROP_VOLTAGE_MIN,
@@ -4582,9 +4573,6 @@ static int fg_power_get_property(struct power_supply *psy,
 			val->strval = loading_batt_type;
 		else
 			val->strval = chip->batt_type;
-		break;
-	case POWER_SUPPLY_PROP_DUMP_SRAM:
-		val->strval = chip->debug_dump;
 		break;
 	case POWER_SUPPLY_PROP_CAPACITY:
 		val->intval = get_prop_capacity(chip);
@@ -4641,10 +4629,10 @@ static int fg_power_get_property(struct power_supply *psy,
 			val->intval = 1;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN:
-		val->intval = chip->nom_cap_uah;
+		val->intval = 4000000;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
-		val->intval = chip->learning_data.learned_cc_uah;
+		val->intval = 4000000;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_NOW:
 		val->intval = chip->learning_data.cc_uah;
@@ -4696,9 +4684,6 @@ static int fg_power_set_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_WARM_TEMP:
 		rc = set_prop_jeita_temp(chip, FG_MEM_SOFT_HOT, val->intval);
-		break;
-	case POWER_SUPPLY_PROP_DUMP_SRAM:
-		dump_debug(&chip->dump_sram);
 		break;
 	case POWER_SUPPLY_PROP_UPDATE_NOW:
 		if (val->intval)
@@ -4826,7 +4811,6 @@ static int fg_property_is_writeable(struct power_supply *psy,
 	switch (psp) {
 	case POWER_SUPPLY_PROP_COOL_TEMP:
 	case POWER_SUPPLY_PROP_WARM_TEMP:
-	case POWER_SUPPLY_PROP_DUMP_SRAM:
 	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
 	case POWER_SUPPLY_PROP_BATTERY_INFO:
 	case POWER_SUPPLY_PROP_BATTERY_INFO_ID:
@@ -4840,63 +4824,6 @@ static int fg_property_is_writeable(struct power_supply *psy,
 
 #define SRAM_DUMP_START		0x400
 #define SRAM_DUMP_LEN		0x200
-static void dump_debug(struct work_struct *work)
-{
-	int i, rc, pos = 0;
-	u8 *buffer, rt_sts;
-	char str[16];
-
-	struct fg_chip *chip = container_of(work,
-				struct fg_chip,
-				dump_sram);
-
-	buffer = devm_kzalloc(chip->dev, SRAM_DUMP_LEN, GFP_KERNEL);
-	memset(buffer, 0, SRAM_DUMP_LEN);
-
-	if (buffer == NULL) {
-		pr_err("Can't allocate buffer\n");
-		return;
-	}
-
-	rc = fg_read(chip, &rt_sts, INT_RT_STS(chip->soc_base), 1);
-	if (rc)
-		pr_err("spmi read failed: addr=%03X, rc=%d\n",
-				INT_RT_STS(chip->soc_base), rc);
-	else
-		pos += sprintf(chip->debug_dump + pos, "soc-rt-sts: 0x%0x    ", rt_sts);
-
-	pos -= 1;
-	rc = fg_read(chip, &rt_sts, INT_RT_STS(chip->batt_base), 1);
-	if (rc)
-		pr_err("spmi read failed: addr=%03X, rc=%d\n",
-				INT_RT_STS(chip->batt_base), rc);
-	else
-		pos += sprintf(chip->debug_dump + pos, "batt-rt-sts: 0x%0x    ", rt_sts);
-
-	pos -= 1;
-	rc = fg_read(chip, &rt_sts, INT_RT_STS(chip->mem_base), 1);
-	if (rc)
-		pr_err("spmi read failed: addr=%03X, rc=%d\n",
-				INT_RT_STS(chip->mem_base), rc);
-	else
-		pos += sprintf(chip->debug_dump + pos, "memif rt-sts: 0x%0x    ", rt_sts);
-
-	rc = fg_mem_read(chip, buffer, SRAM_DUMP_START, SRAM_DUMP_LEN, 0, 0);
-	if (rc) {
-		pr_err("dump failed: rc = %d\n", rc);
-		return;
-	}
-
-	for (i = 0; i < SRAM_DUMP_LEN; i += 4) {
-		pos -= 1;
-		str[0] = '\0';
-		fill_string(str, DEBUG_PRINT_BUFFER_SIZE, buffer + i, 4);
-		pos += sprintf((chip->debug_dump + pos), "addr:%03x:%s   ", SRAM_DUMP_START + i, str);
-	}
-
-	devm_kfree(chip->dev, buffer);
-}
-
 static void dump_sram(struct work_struct *work)
 {
 	int i, rc;
@@ -6360,50 +6287,6 @@ fail:
 	return -EINVAL;
 }
 
-#define REDO_BATID_DURING_FIRST_EST BIT(4)
-static void fg_hw_restart(struct fg_chip *chip)
-{
-	u8 reg = 0;
-	int rc = 0, batt_id;
-	u8 data[4];
-
-	reg = 0x80;
-	batt_id = get_sram_prop_now(chip, FG_DATA_BATT_ID);
-	printk("fg_hw_restart old battery id = %d\n",batt_id);
-
-	fg_masked_write(chip, 0x4150,reg, reg, 1);
-
-	fg_masked_write(chip, chip->soc_base + SOC_RESTART,0xFF, 0, 1);
-	mdelay(5);
-
-	reg = REDO_BATID_DURING_FIRST_EST|REDO_FIRST_ESTIMATE;
-
-	fg_masked_write(chip, chip->soc_base + SOC_RESTART,reg, reg, 1);
-	mdelay(5);
-
-	reg = REDO_BATID_DURING_FIRST_EST |REDO_FIRST_ESTIMATE| RESTART_GO;
-
-	fg_masked_write(chip, chip->soc_base + SOC_RESTART,reg, reg, 1);
-	mdelay(1000);
-
-	fg_masked_write(chip, chip->soc_base + SOC_RESTART,0xFF, 0, 1);
-	fg_masked_write(chip, 0x4150,0x80, 0, 1);
-
-	mdelay(2000);
-
-	rc = fg_mem_read(chip, data, fg_data[FG_DATA_BATT_ID].address, fg_data[FG_DATA_BATT_ID].len, fg_data[FG_DATA_BATT_ID].offset, 0);
-
-	if (rc) {
-		printk("Failed to get sram battery id data\n");
-	}
-	else {
-		fg_data[FG_DATA_BATT_ID].value = data[0] * LSB_8B;
-	}
-
-	batt_id = get_sram_prop_now(chip, FG_DATA_BATT_ID);
-	printk("fg_hw_restart new batt_id=%d\n",batt_id);
-}
-
 #define FG_PROFILE_LEN			128
 #define PROFILE_COMPARE_LEN		32
 #define THERMAL_COEFF_ADDR		0x444
@@ -6412,39 +6295,12 @@ static void fg_hw_restart(struct fg_chip *chip)
 static int fg_batt_profile_init(struct fg_chip *chip)
 {
 	int rc = 0, ret;
-	int len;
-
-	int i;
-	int batts_id_ohm[3] = {24000,40000, 50000};
-	int delta = 0, limit = 0,batt_id = 0, match = 0, id_range_pct = 5;
-	bool in_range = false;
-
+	int len, batt_id;
 	struct device_node *node = chip->pdev->dev.of_node;
 	struct device_node *batt_node, *profile_node;
 	const char *data, *batt_type_str;
 	bool tried_again = false, vbat_in_range, profiles_same;
 	u8 reg = 0;
-
-	batt_id = get_sram_prop_now(chip, FG_DATA_BATT_ID);
-	printk("batt_id_ohm=%d\n",batt_id);
-	for (i = 0; i < 3; i++) {
-	delta = abs(batts_id_ohm[i] - batt_id);
-	printk("delta=%d\n",delta);
-	limit = (batts_id_ohm[i] * id_range_pct / 100);
-	if (batts_id_ohm[i] == 24000)
-		limit += 800;
-	printk("limit=%d\n",limit);
-	in_range = (delta <= limit);
-	printk("in_range=%d\n",in_range);
-		if (in_range != 0) {
-			match = 1;
-			printk("match=%d\n",match);
-		}
-	}
-	if (match == 0) {
-		fg_hw_restart(chip);
-		printk("re-read bat id\n");
-	}
 
 wait:
 	fg_stay_awake(&chip->profile_wakeup_source);
@@ -6869,13 +6725,11 @@ static void charge_full_work(struct work_struct *work)
 	}
 	fg_mem_release(chip);
 
-
 	while(msoc != 0xFF && retry != 8) {
 		msleep(200);
 		msoc = get_monotonic_soc_raw(chip);
 		retry++;
 	}
-
 
 	/*
 	 * wait one cycle to make sure the soc is updated before clearing
@@ -8183,7 +8037,7 @@ static int fg_common_hw_init(struct fg_chip *chip)
 	}
 
 	rc = fg_mem_masked_write(chip, settings[FG_MEM_DELTA_SOC].address, 0xFF,
-			/*soc_to_setpoint(settings[FG_MEM_DELTA_SOC].value)*/1,
+			1,
 			settings[FG_MEM_DELTA_SOC].offset);
 	if (rc) {
 		pr_err("failed to write delta soc rc=%d\n", rc);
@@ -8865,7 +8719,6 @@ adc_clk_change_fail:
 	chip->fg_restarting = false;
 }
 
-
 static int fg_probe(struct platform_device *pdev)
 {
 	struct device *dev = &(pdev->dev);
@@ -8969,8 +8822,6 @@ static int fg_probe(struct platform_device *pdev)
 	init_completion(&chip->first_soc_done);
 	init_completion(&chip->fg_reset_done);
 	dev_set_drvdata(&pdev->dev, chip);
-	chip->debug_dump = kmalloc(sizeof(char)*2048, GFP_KERNEL);
-	memset(chip->debug_dump, '\0', sizeof(char)*2048);
 
 	if (of_get_available_child_count(pdev->dev.of_node) == 0) {
 		pr_err("no child nodes\n");
@@ -9057,7 +8908,9 @@ static int fg_probe(struct platform_device *pdev)
 		pr_err("failed to clear interrupts %d\n", rc);
 		goto of_init_fail;
 	}
+
 	fg_adc_clk_change(chip,1);
+
 	rc = fg_init_irqs(chip);
 	if (rc) {
 		pr_err("failed to request interrupts %d\n", rc);

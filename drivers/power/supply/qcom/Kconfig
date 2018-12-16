@@ -9,6 +9,16 @@ config QPNP_FG
 	  fuel gauge. The state of charge is reported through a BMS power
 	  supply property and also sends uevents when the capacity is updated.
 
+
+config QPNP_FG_D1A
+	tristate "QPNP fuel gauge driver"
+	depends on MFD_SPMI_PMIC
+	help
+	  Say Y here to enable the Fuel Gauge driver. This adds support for
+	  battery fuel gauging and state of charge of battery connected to the
+	  fuel gauge. The state of charge is reported through a BMS power
+	  supply property and also sends uevents when the capacity is updated.
+
 config QPNP_FG_GEN3
 	tristate "QPNP GEN3 fuel gauge driver"
 	depends on MFD_SPMI_PMIC
@@ -98,6 +108,15 @@ config SMB138X_CHARGER
 	  A charger status change triggers an IRQ via the device STAT pin.
 
 config QPNP_SMBCHARGER
+	tristate "QPNP SMB Charger driver"
+	depends on MFD_SPMI_PMIC
+	help
+	  Say Y here to enable the dual path switch mode battery charger which
+	  supports USB detection and battery charging up to 3A.
+	  The driver also offers relevant information to userspace via the
+	  power supply framework.
+
+config QPNP_SMBCHARGER_D1A
 	tristate "QPNP SMB Charger driver"
 	depends on MFD_SPMI_PMIC
 	help
