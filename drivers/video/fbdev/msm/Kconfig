@@ -144,4 +144,19 @@ config FB_MSM_MDSS_FRC_DEBUG
 	statistics and check whether its output pattern matches expected
 	cadence.
 
+config ENABLE_PM_TP_SUSPEND_RESUME
+	bool "ENABLE PM TP SUSPEND/RESUME"
+	---help---
+	  Say Y here if you want to know whether it is running in ffbm mode.
+
+config WPONIT_ADJUST_FUN
+	bool "XIAOMI whitepoint adjust"
+	---help---
+	Panel provides whitepoint x,y and r,g,b value.
+
+config PROJECT_SAKURA
+	bool "XIAOMI sakura project macro"
+	---help---
+	to distinguish diff project
+
 endif
