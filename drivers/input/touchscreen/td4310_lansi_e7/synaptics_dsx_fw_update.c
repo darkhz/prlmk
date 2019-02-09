@@ -44,7 +44,6 @@
 #include <synaptics_dsx.h>
 #include "synaptics_dsx_core.h"
 #include <linux/proc_fs.h>
-#include <linux/hqsysfs.h>
 
 
 #define FW_IHEX_NAME "synaptics/startup_fw_update_lansi.bin"
@@ -4711,7 +4710,6 @@ exit:
 	sprintf (tp_temp_info, "%02x", config_ver[0]);
 	strcat (tp_info_summary, tp_temp_info);
 	strcat (tp_info_summary, "\0");
-	hq_regiser_hw_info (HWID_CTP, tp_info_summary);
 
 	rmi4_data->stay_awake = false;
 

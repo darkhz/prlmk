@@ -35,7 +35,6 @@
 #include "mdss_debug.h"
 #include "mdss_dsi_phy.h"
 #include "mdss_dba_utils.h"
-#include <linux/hqsysfs.h>
 /*Add by HQ-zmc [Date: 2017-11-18 13:28:24]*/
 #include <linux/delay.h>
 
@@ -3184,20 +3183,12 @@ static struct device_node *mdss_dsi_find_panel_of_node(
 		if (!strcmp(panel_name, NONE_PANEL))
 			goto exit;
 #ifdef CONFIG_PROJECT_VINCE
-		if (!strcmp(panel_name, "qcom,mdss_dsi_td4310_fhdplus_video_e7")){
-			hq_regiser_hw_info(HWID_LCM,"incell,vendor:Tianma,IC:TD4310(synaptics)");
-		}else if (!strcmp(panel_name, "qcom,mdss_dsi_td4310_fhdplus_video_e7_g55")){
-			hq_regiser_hw_info(HWID_LCM,"incell,vendor:Tianma_G55,IC:TD4310(synaptics)");
-		}else if (!strcmp(panel_name, "qcom,mdss_dsi_td4310_ebbg_fhdplus_video_e7")){
-			hq_regiser_hw_info(HWID_LCM,"incell,vendor:EBBG,IC:TD4310(synaptics)");
-		}else if (!strcmp(panel_name, "qcom,mdss_dsi_nt36672_tianma_fhdplus_video_e7")){
-			hq_regiser_hw_info(HWID_LCM,"incell,vendor:Tianma,IC:NT36672(novatek)");
-		}else if (!strcmp(panel_name, "qcom,mdss_dsi_nt36672_csot_fhdplus_video_e7")){
+		if (!strcmp(panel_name, "qcom,mdss_dsi_nt36672_csot_fhdplus_video_e7")){
 			nvt_csot_esd_status->nova_csot_panel = true;
 			ESD_interval = 500;
-			hq_regiser_hw_info(HWID_LCM,"incell,vendor:CSOT,IC:NT36672(novatek)");
 		}
 #endif
+
 		if (!strcmp(panel_name, "qcom,mdss_dsi_ili7807_fhdplus_video")){
 #ifdef CONFIG_WPONIT_ADJUST_FUN
 			white_point_num_r = 653332;

@@ -45,7 +45,6 @@
 #include <synaptics_dsx.h>
 #include "synaptics_dsx_core.h"
 #include <linux/delay.h>
-#include <linux/hqsysfs.h>
 #include <linux/workqueue.h>
 
 #ifdef KERNEL_ABOVE_2_6_38
