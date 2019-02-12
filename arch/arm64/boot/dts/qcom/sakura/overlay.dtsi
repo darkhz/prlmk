@@ -1,0 +1,8 @@
+#include "sakura-general.dtsi"
+#include "sakura-pinctrl.dtsi"
+#include "sakura-pm.dtsi"
+#include "sakura-regulator.dtsi"
+#include "sakura-audio.dtsi"
+#include "sakura-mdss.dtsi"
+#include "sakura-qrd.dtsi"
+#include "sakura-camera.dtsi"

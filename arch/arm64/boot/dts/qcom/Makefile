@@ -1,7 +1,3 @@
-dtb-$(CONFIG_ARCH_QCOM)	+= apq8016-sbc.dtb msm8916-mtp.dtb
-dtb-$(CONFIG_ARCH_QCOM)	+= msm8996-mtp.dtb
-dtb-$(CONFIG_ARCH_QCOM)	+= apq8096-db820c.dtb
-
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 	dtbo-$(CONFIG_ARCH_SDM845) += \
 		sdm845-cdp-overlay.dtbo \
@@ -517,40 +513,7 @@ sdm429-spyro-qrd-dvt-overlay.dtbo-base := sdm429-spyro-dvt.dtb
 sda429-spyro-qrd-dvt-overlay.dtbo-base := sda429-spyro-dvt.dtb
 sdm429-spyro-qrd-wdp-overlay.dtbo-base := sdm429-spyro-wdp.dtb
 else
-dtb-$(CONFIG_ARCH_MSM8953) += msm8953-cdp.dtb \
-	msm8953-mtp.dtb \
-	msm8953-ext-codec-mtp.dtb \
-	msm8953-qrd-sku3.dtb \
-	msm8953-rcm.dtb \
-	apq8053-rcm.dtb \
-	msm8953-ext-codec-rcm.dtb \
-	apq8053-cdp.dtb \
-	apq8053-ipc.dtb \
-	msm8953-ipc.dtb \
-	apq8053-mtp.dtb \
-	apq8053-ext-audio-mtp.dtb \
-	apq8053-ext-codec-rcm.dtb \
-	msm8953-cdp-1200p.dtb \
-	msm8953-iot-mtp.dtb \
-	apq8053-iot-mtp.dtb \
-	apq8053-lite-dragon-v1.0.dtb \
-	apq8053-lite-dragon-v2.0.dtb \
-	apq8053-lite-dragon-v2.1.dtb \
-	apq8053-lite-dragon-v2.2.dtb \
-	apq8053-lite-dragon-v2.2.1.dtb \
-	apq8053-lite-dragon-v2.3.dtb \
-	apq8053-lite-dragon-v2.4.dtb \
-	apq8053-lat-concam-dev.dtb \
-	apq8053-lat-concam-proto.dtb \
-	msm8953-pmi8940-cdp.dtb \
-	msm8953-pmi8940-mtp.dtb \
-	msm8953-pmi8937-cdp.dtb \
-	msm8953-pmi8937-mtp.dtb \
-	msm8953-pmi8940-ext-codec-mtp.dtb \
-	msm8953-pmi8937-ext-codec-mtp.dtb \
-	msm8953-pmi632-cdp-s2.dtb \
-	apq8053-batcam.dtb \
-	msm8953-no-pmi.dtb
+dtb-$(CONFIG_ARCH_MSM8953) += msm8953-qrd-sku3-sakura.dtb
 
 dtb-$(CONFIG_ARCH_MSM8937) += msm8937-pmi8950-mtp.dtb \
 	msm8937-interposer-sdm439-cdp.dtb \
