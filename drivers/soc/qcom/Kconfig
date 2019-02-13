@@ -870,6 +870,11 @@ config QSEE_IPC_IRQ_BRIDGE
 	  interrupt from a remote subsystem directed towards Qualcomm
 	  Technologies, Inc. Secure Execution Environment(QSEE).
 
+config SERIAL_NUM
+	bool "Enable Serial Number Proc Interface"
+	help
+	Provide a interface for reading CPU serial number
+
 config MSM_JTAGV8
 	bool "Debug and ETM trace support across power collapse for ARMv8"
 	default y if CORESIGHT_SOURCE_ETM4X
