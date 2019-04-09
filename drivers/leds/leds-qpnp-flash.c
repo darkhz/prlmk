@@ -1268,7 +1268,6 @@ static void qpnp_flash_led_work(struct work_struct *work)
 	int rc, brightness = flash_node->cdev.brightness;
 	int max_curr_avail_ma = 0;
 	int total_curr_ma = 0;
-	int i;
 	u8 val = 0;
 	uint temp;
 
@@ -1734,13 +1733,7 @@ static void qpnp_flash_led_work(struct work_struct *work)
 			}
 			led->fault_reg = temp;
 		}
-	} else {
-		pr_err("Both Torch and Flash cannot be select at same time\n");
-		for (i = 0; i < led->num_leds; i++)
-			led->flash_node[i].flash_on = false;
-		goto turn_off;
-	}
-
+	} 
 	flash_node->flash_on = true;
 	mutex_unlock(&led->flash_led_lock);
 
