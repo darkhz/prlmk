@@ -141,6 +141,34 @@ static struct attribute_group fts_gesture_group = {
 };
 
 /************************************************************************
+* Name: fts_input_symlink
+*  Brief:
+*  Input:
+* Output:
+* Return: 0-success or others-error
+***********************************************************************/
+static ssize_t fts_input_symlink(struct i2c_client *client)
+{
+	char *driver_path;
+	int ret = 0;
+
+ 	driver_path = kzalloc(PATH_MAX, GFP_KERNEL);
+	if (!driver_path) {
+		return -ENOMEM;
+	}
+
+ 	sprintf(driver_path, "/sys%s",
+			kobject_get_path(&client->dev.kobj, GFP_KERNEL));
+
+ 	pr_info("%s: driver_path=%s\n", __func__, driver_path);
+	proc_symlink("touchpanel", NULL, driver_path);
+
+ 	kfree(driver_path);
+
+ 	return ret;
+}
+
+/************************************************************************
 * Name: fts_gesture_show
 *  Brief:
 *  Input: device, device attribute, char buf
@@ -625,6 +653,7 @@ int fts_gesture_init(struct input_dev *input_dev, struct i2c_client *client)
 	__set_bit(KEY_GESTURE_Z, input_dev->keybit);
 
 	fts_create_gesture_sysfs(client);
+	fts_input_symlink(client);
 	fts_gesture_data.mode = 1;
 	fts_gesture_data.active = 0;
 	FTS_FUNC_EXIT();
