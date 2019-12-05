@@ -513,7 +513,8 @@ sdm429-spyro-qrd-dvt-overlay.dtbo-base := sdm429-spyro-dvt.dtb
 sda429-spyro-qrd-dvt-overlay.dtbo-base := sda429-spyro-dvt.dtb
 sdm429-spyro-qrd-wdp-overlay.dtbo-base := sdm429-spyro-wdp.dtb
 else
-dtb-$(CONFIG_ARCH_MSM8953) += msm8953-qrd-sku3-sakura.dtb
+dtb-$(CONFIG_ARCH_MSM8953) += msm8953-qrd-sku3-sakura.dtb \
+                              msm8953-qrd-sku3-daisy.dtb
 
 dtb-$(CONFIG_ARCH_MSM8937) += msm8937-pmi8950-mtp.dtb \
 	msm8937-interposer-sdm439-cdp.dtb \
