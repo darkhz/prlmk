@@ -16,33 +16,33 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_flash.c
- *
- * Author:    fupeipei
- *
- * Created:    2016-08-08
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_flash.c
+*
+* Author:    fupeipei
+*
+* Created:    2016-08-08
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 #include "focaltech_flash.h"
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 struct ft_chip_t chip_types;
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 /* Upgrade FW/PRAMBOOT/LCD CFG */
 #if (FTS_GET_VENDOR_ID_NUM >= 1)
 u8 CTPM_FW[] = {
@@ -82,16 +82,16 @@ struct work_struct fw_update_work;
 u8 *g_fw_file;
 int g_fw_len;
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 
 /************************************************************************
- * Name: fts_ctpm_upgrade_delay
- * Brief: 0
- * Input: 0
- * Output: 0
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_upgrade_delay
+* Brief: 0
+* Input: 0
+* Output: 0
+* Return: 0
+***********************************************************************/
 void fts_ctpm_upgrade_delay(u32 i)
 {
 	do {
@@ -100,12 +100,12 @@ void fts_ctpm_upgrade_delay(u32 i)
 }
 
 /************************************************************************
- * Name: fts_ctpm_i2c_hid2std
- * Brief:  HID to I2C
- * Input: i2c info
- * Output: no
- * Return: fail =0
- ***********************************************************************/
+* Name: fts_ctpm_i2c_hid2std
+* Brief:  HID to I2C
+* Input: i2c info
+* Output: no
+* Return: fail =0
+***********************************************************************/
 int fts_ctpm_i2c_hid2std(struct i2c_client *client)
 {
 #if (FTS_CHIP_IDC)
@@ -122,7 +122,7 @@ int fts_ctpm_i2c_hid2std(struct i2c_client *client)
 	buf[0] = buf[1] = buf[2] = 0;
 	fts_i2c_read(client, buf, 0, buf, 3);
 
-	if ((buf[0] == 0xeb) && (buf[1] == 0xaa) && (buf[2] == 0x08)) {
+	if ((0xeb == buf[0]) && (0xaa == buf[1]) && (0x08 == buf[2])) {
 		FTS_DEBUG("hidi2c change to stdi2c successful!!");
 		bRet = 1;
 	} else {
@@ -135,12 +135,12 @@ int fts_ctpm_i2c_hid2std(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_get_chip_types
- * Brief: get correct chip information
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_get_chip_types
+* Brief: get correct chip information
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 static void fts_get_chip_types(void)
 {
 	struct ft_chip_t ctype[] = FTS_CHIP_TYPE_MAPPING;
@@ -156,12 +156,12 @@ static void fts_get_chip_types(void)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_upgrade_array
- * Brief: decide which ic
- * Input: no
- * Output: get ic info in fts_updateinfo_curr
- * Return: no
- ***********************************************************************/
+* Name: fts_ctpm_get_upgrade_array
+* Brief: decide which ic
+* Input: no
+* Output: get ic info in fts_updateinfo_curr
+* Return: no
+***********************************************************************/
 void fts_ctpm_get_upgrade_array(void)
 {
 
@@ -179,12 +179,12 @@ void fts_ctpm_get_upgrade_array(void)
 }
 
 /************************************************************************
- * Name: fts_ctpm_rom_or_pram_reset
- * Brief: RST CMD(07), reset to romboot(maybe->bootloader)
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_rom_or_pram_reset
+* Brief: RST CMD(07), reset to romboot(maybe->bootloader)
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 void fts_ctpm_rom_or_pram_reset(struct i2c_client *client)
 {
 	u8 rst_cmd = FTS_REG_RESET_FW;
@@ -196,12 +196,12 @@ void fts_ctpm_rom_or_pram_reset(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_auto_clb
- * Brief:  auto calibration
- * Input: i2c info
- * Output: no
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_auto_clb
+* Brief:  auto calibration
+* Input: i2c info
+* Output: no
+* Return: 0
+***********************************************************************/
 int fts_ctpm_auto_clb(struct i2c_client *client)
 {
 #if FTS_AUTO_CLB_EN
@@ -223,15 +223,15 @@ int fts_ctpm_auto_clb(struct i2c_client *client)
 		/* 5x36,5x36i */
 		for (i = 0; i < 100; i++) {
 			fts_i2c_read_reg(client, 0x02, &uc_temp);
-			if ((uc_temp == 0x02) ||
-				(uc_temp == 0xFF))
+			if (0x02 == uc_temp ||
+				0xFF == uc_temp)
 				break;
 			msleep(20);
 		}
 	} else {
 		for (i = 0; i < 100; i++) {
 			fts_i2c_read_reg(client, 0, &uc_temp);
-			if (((uc_temp&0x70)>>4) == 0x0)
+			if (0x0 == ((uc_temp&0x70)>>4))
 				break;
 			msleep(20);
 		}
@@ -249,12 +249,12 @@ int fts_ctpm_auto_clb(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_getsize
- * Brief: Get different file's size
- * Input:
- * Output:
- * Return: file's size
- ***********************************************************************/
+* Name: fts_getsize
+* Brief: Get different file's size
+* Input:
+* Output:
+* Return: file's size
+***********************************************************************/
 u32 fts_getsize(u8 fw_type)
 {
 	int fw_len = 0;
@@ -284,12 +284,12 @@ u32 fts_getsize(u8 fw_type)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_pram_or_rom_id
- * Brief: 0
- * Input: 0
- * Output: 0
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_get_pram_or_rom_id
+* Brief: 0
+* Input: 0
+* Output: 0
+* Return: 0
+***********************************************************************/
 enum FW_STATUS fts_ctpm_get_pram_or_rom_id(struct i2c_client *client)
 {
 	u8 buf[4];
@@ -328,12 +328,12 @@ enum FW_STATUS fts_ctpm_get_pram_or_rom_id(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_app_file
- * Brief: get app file by Vendor ID
- * Input:
- * Output:
- * Return: <0: vendor id not correct,not upgrade
- ***********************************************************************/
+* Name: fts_ctpm_get_app_file
+* Brief: get app file by Vendor ID
+* Input:
+* Output:
+* Return: <0: vendor id not correct,not upgrade
+***********************************************************************/
 static int fts_ctpm_get_i_file(struct i2c_client *client, int fw_valid)
 {
 	int ret;
@@ -347,12 +347,12 @@ static int fts_ctpm_get_i_file(struct i2c_client *client, int fw_valid)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_app_ver
- * Brief:  get app file version
- * Input:
- * Output:
- * Return: fw version
- ***********************************************************************/
+* Name: fts_ctpm_get_app_ver
+* Brief:  get app file version
+* Input:
+* Output:
+* Return: fw version
+***********************************************************************/
 int fts_ctpm_get_app_ver(void)
 {
 	int i_ret = 0;
@@ -364,13 +364,13 @@ int fts_ctpm_get_app_ver(void)
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade
- * Brief:  fw upgrade entry funciotn
- * Input:
- * Output:
- * Return: 0  - upgrade successfully
- *		 <0 - upgrade failed
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade
+* Brief:  fw upgrade entry funciotn
+* Input:
+* Output:
+* Return: 0  - upgrade successfully
+*		 <0 - upgrade failed
+***********************************************************************/
 int fts_ctpm_fw_upgrade(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -382,13 +382,13 @@ int fts_ctpm_fw_upgrade(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade
- * Brief:  fw upgrade entry funciotn
- * Input:
- * Output:
- * Return: 0  - upgrade successfully
- *		 <0 - upgrade failed
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade
+* Brief:  fw upgrade entry funciotn
+* Input:
+* Output:
+* Return: 0  - upgrade successfully
+*		 <0 - upgrade failed
+***********************************************************************/
 int fts_ctpm_lcd_cfg_upgrade(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -399,16 +399,29 @@ int fts_ctpm_lcd_cfg_upgrade(struct i2c_client *client)
 	return i_ret;
 }
 
+static int check_chip_id(u8 chip_id1, u8 chip_id2)
+{
+#if FTS_CHIP_IDC
+	if ((chip_id1 == chip_types.chip_idh)
+			&& (chip_id2 == chip_types.chip_idl) {
+#else
+	if (chip_id1 == chip_types.chip_idh) {
+#endif
+		return 1;
+	}
+	return 0;
+}
+
 #if (!(FTS_UPGRADE_STRESS_TEST))
 /************************************************************************
- * Name: fts_ctpm_check_fw_status
- * Brief: Check App is valid or not
- * Input:
- * Output:
- * Return: -EIO - I2C communication error
- *		 FTS_RUN_IN_APP - APP valid
- *		 0 - APP invalid
- ***********************************************************************/
+* Name: fts_ctpm_check_fw_status
+* Brief: Check App is valid or not
+* Input:
+* Output:
+* Return: -EIO - I2C communication error
+*		 FTS_RUN_IN_APP - APP valid
+*		 0 - APP invalid
+***********************************************************************/
 static int fts_ctpm_check_fw_status(struct i2c_client *client)
 {
 	u8 chip_id1 = 0;
@@ -431,11 +444,7 @@ static int fts_ctpm_check_fw_status(struct i2c_client *client)
 			continue;
 		}
 
-		if ((chip_id1 == chip_types.chip_idh)
-#if FTS_CHIP_IDC
-			&& (chip_id2 == chip_types.chip_idl)
-#endif
-		   ) {
+		if (check_chip_id(chip_id1, chip_id2)) {
 			fw_status = FTS_RUN_IN_APP;
 			break;
 		}
@@ -450,8 +459,7 @@ static int fts_ctpm_check_fw_status(struct i2c_client *client)
 		return -EIO;
 
 	/* I2C communication ok, but not get correct ID,
-	 * need check pram/rom/bootloader
-	 */
+	 * need check pram/rom/bootloader */
 	if (i >= 5)
 		fw_status = fts_ctpm_get_pram_or_rom_id(client);
 
@@ -459,13 +467,13 @@ static int fts_ctpm_check_fw_status(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_check_fw_ver
- * Brief: Check vendor id is valid or not
- * Input:
- * Output:
- * Return: 1 - vendor id valid
- *		 0 - vendor id invalid
- ***********************************************************************/
+* Name: fts_ctpm_check_fw_ver
+* Brief: Check vendor id is valid or not
+* Input:
+* Output:
+* Return: 1 - vendor id valid
+*		 0 - vendor id invalid
+***********************************************************************/
 static int fts_ctpm_check_fw_ver(struct i2c_client *client)
 {
 	u8 uc_tp_fm_ver = 0;
@@ -483,13 +491,13 @@ static int fts_ctpm_check_fw_ver(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_check_need_upgrade
- * Brief:
- * Input:
- * Output:
- * Return: 1 - Need upgrade
- *		 0 - No upgrade
- ***********************************************************************/
+* Name: fts_ctpm_check_need_upgrade
+* Brief:
+* Input:
+* Output:
+* Return: 1 - Need upgrade
+*		 0 - No upgrade
+***********************************************************************/
 static int fts_ctpm_check_need_upgrade(struct i2c_client *client)
 {
 	int fw_status = 0;
@@ -540,12 +548,12 @@ static int fts_ctpm_check_need_upgrade(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_auto_upgrade
- * Brief:  auto upgrade
- * Input:
- * Output:
- * Return: 0 - no upgrade
- ***********************************************************************/
+* Name: fts_ctpm_auto_upgrade
+* Brief:  auto upgrade
+* Input:
+* Output:
+* Return: 0 - no upgrade
+***********************************************************************/
 int fts_ctpm_auto_upgrade(struct i2c_client *client)
 {
 	u8 uc_tp_fm_ver = 0;
@@ -628,12 +636,12 @@ static void fts_ctpm_update_work_func(struct work_struct *work)
 }
 
 /*****************************************************************************
- *  Name: fts_ctpm_upgrade_init
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ctpm_upgrade_init
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 void fts_ctpm_upgrade_init(void)
 {
 	FTS_FUNC_ENTER();
@@ -649,12 +657,12 @@ void fts_ctpm_upgrade_init(void)
 }
 
 /*****************************************************************************
- *  Name: fts_ctpm_upgrade_exit
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ctpm_upgrade_exit
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 void fts_ctpm_upgrade_exit(void)
 {
 	FTS_FUNC_ENTER();

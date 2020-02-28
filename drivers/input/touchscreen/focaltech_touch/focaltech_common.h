@@ -15,18 +15,18 @@
  *
  */
 /*****************************************************************************
- *
- * File Name: focaltech_common.h
- *
- * Author: Focaltech Driver Team
- *
- * Created: 2016-08-16
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_common.h
+*
+* Author: Focaltech Driver Team
+*
+* Created: 2016-08-16
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 #ifndef __LINUX_FOCALTECH_COMMON_H__
 #define __LINUX_FOCALTECH_COMMON_H__
@@ -34,8 +34,8 @@
 #include "focaltech_config.h"
 
 /*****************************************************************************
- * Macro definitions using #define
- *****************************************************************************/
+* Macro definitions using #define
+*****************************************************************************/
 #define FTS_DRIVER_VERSION                  "Focaltech V1.3 20170306"
 
 #define FLAGBIT(x)              (0x00000001 << (x))
@@ -90,9 +90,9 @@
 
 
 /*****************************************************************************
- *  Alternative mode (When something goes wrong,
- *  the modules may be able to solve the problem.)
- *****************************************************************************/
+*  Alternative mode (When something goes wrong,
+*  the modules may be able to solve the problem.)
+*****************************************************************************/
 /*
  * point report check
  * default: disable
@@ -101,8 +101,8 @@
 
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 struct ft_chip_t {
 	unsigned long type;
 	unsigned char chip_idh;
@@ -184,8 +184,8 @@ void fts_irq_disable(void);
 void fts_irq_enable(void);
 
 /*****************************************************************************
- * DEBUG function define here
- *****************************************************************************/
+* DEBUG function define here
+*****************************************************************************/
 #if FTS_DEBUG_EN
 #define FTS_DEBUG_LEVEL     1
 

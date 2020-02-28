@@ -16,22 +16,22 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_upgrade_ft6336GU.c
- *
- * Author:    fupeipei
- *
- * Created:    2016-08-15
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_upgrade_ft6336GU.c
+*
+* Author:    fupeipei
+*
+* Created:    2016-08-15
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "../focaltech_core.h"
 
 #if ((IC_SERIALS == 0x03) || (IC_SERIALS == 0x04))
@@ -39,8 +39,8 @@
 #include "focaltech_upgrade_common.h"
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 #define APP_FILE_MAX_SIZE           (60 * 1024)
 #define APP_FILE_MIN_SIZE           (8)
 #define APP_FILE_VER_MAPPING        (0x10A)
@@ -66,8 +66,8 @@
 #define APP2_START          (APP_VERIF_ADDR + APP_VERIF_LEN)
 #define APP2_ECC_ADDR       (APP_VERIF_ADDR + APP_P2_ECC)
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 static int fts_ft6x36gu_get_i_file(struct i2c_client *client, int fw_valid);
 static int fts_ft6x36gu_get_app_i_file_ver(void);
 static int fts_ft6x36gu_get_app_bin_file_ver(struct i2c_client *client,
@@ -88,16 +88,16 @@ struct fts_upgrade_fun fts_updatefun = {
 };
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 #if (FTS_GET_VENDOR_ID_NUM != 0)
 /************************************************************************
- * Name: fts_ft6x36gu_get_vendor_id_flash
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ft6x36gu_get_vendor_id_flash
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 static int fts_ft6x36gu_get_vendor_id_flash(struct i2c_client *client,
 					u8 *vendor_id)
 {
@@ -151,13 +151,13 @@ static int fts_ft6x36gu_get_vendor_id_flash(struct i2c_client *client,
 #endif
 
 /************************************************************************
- * Name: fts_ft6x36gu_get_i_file
- * Brief: get .i file
- * Input:
- * Output:
- * Return: 0   - ok
- *		 <0 - fail
- ***********************************************************************/
+* Name: fts_ft6x36gu_get_i_file
+* Brief: get .i file
+* Input:
+* Output:
+* Return: 0   - ok
+*		 <0 - fail
+***********************************************************************/
 static int fts_ft6x36gu_get_i_file(struct i2c_client *client, int fw_valid)
 {
 	int ret = -EIO;
@@ -212,12 +212,12 @@ static int fts_ft6x36gu_get_i_file(struct i2c_client *client, int fw_valid)
 }
 
 /************************************************************************
- * Name: fts_ft6x36gu_get_app_bin_file_ver
- * Brief:  get .i file version
- * Input: no
- * Output: no
- * Return: fw version
- ***********************************************************************/
+* Name: fts_ft6x36gu_get_app_bin_file_ver
+* Brief:  get .i file version
+* Input: no
+* Output: no
+* Return: fw version
+***********************************************************************/
 static int fts_ft6x36gu_get_app_bin_file_ver(struct i2c_client *client,
 				char *firmware_name)
 {
@@ -245,12 +245,12 @@ static int fts_ft6x36gu_get_app_bin_file_ver(struct i2c_client *client,
 }
 
 /************************************************************************
- * Name: fts_ft6x36gu_get_app_i_file_ver
- * Brief:  get .i file version
- * Input: no
- * Output: no
- * Return: fw version
- ***********************************************************************/
+* Name: fts_ft6x36gu_get_app_i_file_ver
+* Brief:  get .i file version
+* Input: no
+* Output: no
+* Return: fw version
+***********************************************************************/
 static int fts_ft6x36gu_get_app_i_file_ver(void)
 {
 	int fwsize = g_fw_len;
@@ -264,12 +264,12 @@ static int fts_ft6x36gu_get_app_i_file_ver(void)
 }
 
 /*****************************************************************************
- * Name: fts_check_app_bin_valid
- * Brief:
- * Input:
- * Output:
- * Return:
- *****************************************************************************/
+* Name: fts_check_app_bin_valid
+* Brief:
+* Input:
+* Output:
+* Return:
+*****************************************************************************/
 static bool fts_check_app_bin_valid(u8 *buf)
 {
 	int i;
@@ -329,12 +329,12 @@ static bool fts_check_app_bin_valid(u8 *buf)
 
 
 /************************************************************************
- * Name: fts_ft6x36gu_upgrade_use_buf
- * Brief: fw upgrade
- * Input: i2c info, file buf, file len
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_ft6x36gu_upgrade_use_buf
+* Brief: fw upgrade
+* Input: i2c info, file buf, file len
+* Output: no
+* Return: fail <0
+***********************************************************************/
 static int fts_ft6x36gu_upgrade_use_buf(struct i2c_client *client,
 				u8 *pbt_buf, u32 dw_length)
 {
@@ -352,8 +352,7 @@ static int fts_ft6x36gu_upgrade_use_buf(struct i2c_client *client,
 	FTS_FUNC_ENTER();
 
 	/*if the first byte of app is not 0x02,
-	 *the app is invaild, can not upgrade
-	 */
+	 *the app is invaild, can not upgrade*/
 	if (pbt_buf[0] != 0x02) {
 		FTS_ERROR("[UPGRADE]: app first byte != 0x02. cannot upgrade!");
 		return -EINVAL;
@@ -521,12 +520,12 @@ static int fts_ft6x36gu_upgrade_use_buf(struct i2c_client *client,
 }
 
 /************************************************************************
- * Name: fts_ft6x36gu_upgrade_with_app_i_file
- * Brief:  upgrade with *.i file
- * Input: i2c info
- * Output:
- * Return: fail < 0
- ***********************************************************************/
+* Name: fts_ft6x36gu_upgrade_with_app_i_file
+* Brief:  upgrade with *.i file
+* Input: i2c info
+* Output:
+* Return: fail < 0
+***********************************************************************/
 static int fts_ft6x36gu_upgrade_with_app_i_file(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -552,12 +551,12 @@ static int fts_ft6x36gu_upgrade_with_app_i_file(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ft6x36gu_upgrade_with_app_bin_file
- * Brief: upgrade with *.bin file
- * Input: i2c info, file name
- * Output: no
- * Return: success =0
- ***********************************************************************/
+* Name: fts_ft6x36gu_upgrade_with_app_bin_file
+* Brief: upgrade with *.bin file
+* Input: i2c info, file name
+* Output: no
+* Return: success =0
+***********************************************************************/
 static int fts_ft6x36gu_upgrade_with_app_bin_file(struct i2c_client *client,
 					char *firmware_name)
 {

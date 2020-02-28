@@ -16,31 +16,31 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_ex_mode.c
- *
- *    Author: Liu WeiGuang
- *
- *   Created: 2016-08-31
- *
- *  Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_ex_mode.c
+*
+*    Author: Liu WeiGuang
+*
+*   Created: 2016-08-31
+*
+*  Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 /*****************************************************************************
- * 2.Private constant and macro definitions using #define
- *****************************************************************************/
+* 2.Private constant and macro definitions using #define
+*****************************************************************************/
 
 /*****************************************************************************
- * 3.Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* 3.Private enumerations, structures and unions using typedef
+*****************************************************************************/
 struct fts_mode_flag {
 	int  fts_glove_mode_flag;
 	int  fts_cover_mode_flag;
@@ -50,16 +50,16 @@ struct fts_mode_flag {
 static struct fts_mode_flag g_fts_mode_flag;
 
 /*****************************************************************************
- * 4.Static variables
- *****************************************************************************/
+* 4.Static variables
+*****************************************************************************/
 
 /*****************************************************************************
- * 5.Global variable or extern global variabls/functions
- *****************************************************************************/
+* 5.Global variable or extern global variabls/functions
+*****************************************************************************/
 
 /*****************************************************************************
- * 6.Static function prototypes
- *****************************************************************************/
+* 6.Static function prototypes
+*******************************************************************************/
 
 #if FTS_GLOVE_EN
 static ssize_t fts_touch_glove_show(struct device *dev,
@@ -96,12 +96,12 @@ static ssize_t fts_touch_glove_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_enter_glove_mode
- * Brief:  change glove mode
- * Input:  glove mode
- * Output: no
- * Return: success >=0, otherwise failed
- ***********************************************************************/
+* Name: fts_enter_glove_mode
+* Brief:  change glove mode
+* Input:  glove mode
+* Output: no
+* Return: success >=0, otherwise failed
+***********************************************************************/
 int fts_enter_glove_mode(struct i2c_client *client, int mode)
 {
 	int ret = 0;
@@ -124,11 +124,11 @@ int fts_enter_glove_mode(struct i2c_client *client, int mode)
 }
 
 /* read and write glove mode
- *   read example: cat  fts_touch_glove_mode---read  glove mode
- *   write example:echo 01 > fts_touch_glove_mode ---write glove mode to 01
- *
- */
-static DEVICE_ATTR(fts_glove_mode, 0644,
+*   read example: cat  fts_touch_glove_mode---read  glove mode
+*   write example:echo 01 > fts_touch_glove_mode ---write glove mode to 01
+*
+*/
+static DEVICE_ATTR(fts_glove_mode, S_IRUGO|S_IWUSR,
 		fts_touch_glove_show, fts_touch_glove_store);
 
 #endif
@@ -168,12 +168,12 @@ static ssize_t fts_touch_cover_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_enter_cover_mode
- * Brief:  change cover mode
- * Input:  cover mode
- * Output: no
- * Return: success >=0, otherwise failed
- ***********************************************************************/
+* Name: fts_enter_cover_mode
+* Brief:  change cover mode
+* Input:  cover mode
+* Output: no
+* Return: success >=0, otherwise failed
+***********************************************************************/
 int  fts_enter_cover_mode(struct i2c_client *client, int mode)
 {
 	int ret = 0;
@@ -196,11 +196,11 @@ int  fts_enter_cover_mode(struct i2c_client *client, int mode)
 }
 
 /* read and write cover mode
- *   read example: cat  fts_touch_cover_mode---read  cover mode
- *   write example:echo 01 > fts_touch_cover_mode ---write cover mode to 01
- *
- */
-static DEVICE_ATTR(fts_cover_mode, 0644,
+*   read example: cat  fts_touch_cover_mode---read  cover mode
+*   write example:echo 01 > fts_touch_cover_mode ---write cover mode to 01
+*
+*/
+static DEVICE_ATTR(fts_cover_mode, S_IRUGO|S_IWUSR,
 		fts_touch_cover_show, fts_touch_cover_store);
 
 #endif
@@ -240,12 +240,12 @@ static ssize_t fts_touch_charger_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_enter_charger_mode
- * Brief:  change charger mode
- * Input:  charger mode
- * Output: no
- * Return: success >=0, otherwise failed
- ***********************************************************************/
+* Name: fts_enter_charger_mode
+* Brief:  change charger mode
+* Input:  charger mode
+* Output: no
+* Return: success >=0, otherwise failed
+***********************************************************************/
 int  fts_enter_charger_mode(struct i2c_client *client, int mode)
 {
 	int ret = 0;
@@ -268,11 +268,11 @@ int  fts_enter_charger_mode(struct i2c_client *client, int mode)
 }
 
 /* read and write charger mode
- *   read example: cat  fts_touch_charger_mode---read  charger mode
- *   write example:echo 01 > fts_touch_charger_mode ---write charger mode to 01
- *
- */
-static DEVICE_ATTR(fts_charger_mode, 0644,
+*   read example: cat  fts_touch_charger_mode---read  charger mode
+*   write example:echo 01 > fts_touch_charger_mode ---write charger mode to 01
+*
+*/
+static DEVICE_ATTR(fts_charger_mode, S_IRUGO|S_IWUSR,
 		fts_touch_charger_show, fts_touch_charger_store);
 
 #endif
@@ -306,7 +306,7 @@ int fts_ex_mode_init(struct i2c_client *client)
 	g_fts_mode_flag.fts_charger_mode_flag = false;
 
 	err = sysfs_create_group(&client->dev.kobj, &fts_touch_mode_group);
-	if (err != 0) {
+	if (0 != err) {
 		FTS_ERROR("[Mode]create sysfs failed.");
 		sysfs_remove_group(&client->dev.kobj, &fts_touch_mode_group);
 		return -EIO;

@@ -2,7 +2,6 @@
  * Goodix GT9xx touchscreen driver
  *
  * Copyright  (C)  2016 - 2017 Goodix. Ltd.
- * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -504,7 +503,7 @@ static u8 gup_check_firmware_name(struct i2c_client *client,
 	u8 len;
 	u8 *fname;
 
-	printk("Enter %s --- Line : %d\n",__func__,__LINE__);
+	printk("Enter %s --- Line : %d\n", __func__, __LINE__);
 
 	if (!(*path_p)) {
 		*path_p = GOODIX_FIRMWARE_FILE_NAME;
@@ -534,7 +533,7 @@ static u8 gup_get_update_file(struct i2c_client *client,
 	s32 fw_checksum = 0;
 	struct goodix_ts_data *ts = i2c_get_clientdata(client);
 
-	printk("Enter %s --- Line : %d\n",__func__,__LINE__);
+	printk("Enter %s --- Line : %d\n", __func__, __LINE__);
 
 	if (ts->pdata->auto_update_cfg) {
 		ret = gup_update_config(client);
@@ -1913,7 +1912,7 @@ s32 gup_update_proc(void *dir)
 
 	ts = i2c_get_clientdata(i2c_connect_client);
 
-	printk("Enter %s --- Line : %d\n",__func__,__LINE__);
+	printk("Enter %s --- Line : %d\n", __func__, __LINE__);
 
 	dev_dbg(&ts->client->dev, "[update_proc]Begin update ......\n");
 
@@ -1941,7 +1940,7 @@ s32 gup_update_proc(void *dir)
 
 	gtp_work_control_enable(ts, false);
 	gtp_esd_off(ts);
-#if GTP_CHARGER_SWITCH
+#if GTP_CHARGER_SWITCH  /*gexiantao@20180502*/
 	gtp_charger_off(ts);
 #endif
 

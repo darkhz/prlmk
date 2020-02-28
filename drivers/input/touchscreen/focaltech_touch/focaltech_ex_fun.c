@@ -16,27 +16,27 @@
  */
 
 /*****************************************************************************
- *
- * File Name: Focaltech_ex_fun.c
- *
- * Author: Focaltech Driver Team
- *
- * Created: 2016-08-08
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: Focaltech_ex_fun.c
+*
+* Author: Focaltech Driver Team
+*
+* Created: 2016-08-08
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 /*create apk debug channel*/
 #define PROC_UPGRADE                            0
 #define PROC_READ_REGISTER                      1
@@ -53,12 +53,12 @@
 #define READ_BUF_SIZE                           512
 
 /*****************************************************************************
- * Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* Private enumerations, structures and unions using typedef
+*****************************************************************************/
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 static unsigned char proc_operate_mode = PROC_UPGRADE;
 static struct proc_dir_entry *fts_proc_entry;
 static struct
@@ -70,12 +70,12 @@ static struct
 } g_rwreg_result;
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 #if FTS_ESDCHECK_EN
 static void esd_process(u8 *writebuf, int buflen, bool flag)
 {
@@ -115,12 +115,12 @@ static void esd_process(u8 *writebuf, int buflen, bool flag)
 
 /*interface of write proc*/
 /************************************************************************
- *   Name: fts_debug_write
- *  Brief:interface of write proc
- * Input: file point, data buf, data len, no use
- * Output: no
- * Return: data len
- ***********************************************************************/
+*   Name: fts_debug_write
+*  Brief:interface of write proc
+* Input: file point, data buf, data len, no use
+* Output: no
+* Return: data len
+***********************************************************************/
 static ssize_t fts_debug_write(struct file *filp, const char __user *buff,
 			size_t count, loff_t *ppos)
 {
@@ -182,7 +182,7 @@ static ssize_t fts_debug_write(struct file *filp, const char __user *buff,
 		writelen = 2;
 		ret = fts_i2c_write(fts_i2c_client, writebuf + 1, writelen);
 		if (ret < 0)
-			FTS_ERROR("[APK]: write iic error!!");
+				FTS_ERROR("[APK]: write iic error!!");
 		break;
 	case PROC_SET_SLAVE_ADDR:
 		ret = fts_i2c_client->addr;
@@ -236,12 +236,12 @@ static ssize_t fts_debug_write(struct file *filp, const char __user *buff,
 
 /* interface of read proc */
 /************************************************************************
- *   Name: fts_debug_read
- *  Brief:interface of read proc
- * Input: point to the data, no use, no use, read len, no use, no use
- * Output: page point to data
- * Return: read char number
- ***********************************************************************/
+*   Name: fts_debug_read
+*  Brief:interface of read proc
+* Input: point to the data, no use, no use, read len, no use, no use
+* Output: page point to data
+* Return: read char number
+***********************************************************************/
 static ssize_t fts_debug_read(struct file *filp, char __user *buff,
 		size_t count, loff_t *ppos)
 {
@@ -317,16 +317,16 @@ static const struct file_operations fts_proc_fops = {
 };
 
 /************************************************************************
- * Name: fts_create_apk_debug_channel
- * Brief:  create apk debug channel
- * Input: i2c info
- * Output: no
- * Return: success =0
- ***********************************************************************/
+* Name: fts_create_apk_debug_channel
+* Brief:  create apk debug channel
+* Input: i2c info
+* Output: no
+* Return: success =0
+***********************************************************************/
 int fts_create_apk_debug_channel(struct i2c_client *client)
 {
-	fts_proc_entry = proc_create(PROC_NAME, 0644, NULL, &fts_proc_fops);
-	if (fts_proc_entry == NULL) {
+	fts_proc_entry = proc_create(PROC_NAME, 0777, NULL, &fts_proc_fops);
+	if (NULL == fts_proc_entry) {
 		FTS_ERROR("Couldn't create proc entry!");
 		return -ENOMEM;
 	}
@@ -337,12 +337,12 @@ int fts_create_apk_debug_channel(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_release_apk_debug_channel
- * Brief:  release apk debug channel
- * Input: no
- * Output: no
- * Return: no
- ***********************************************************************/
+* Name: fts_release_apk_debug_channel
+* Brief:  release apk debug channel
+* Input: no
+* Output: no
+* Return: no
+***********************************************************************/
 void fts_release_apk_debug_channel(void)
 {
 	if (fts_proc_entry)
@@ -393,12 +393,12 @@ static ssize_t fts_irq_show(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_tpfwver_show
- * Brief:  show tp fw vwersion
- * Input: device, device attribute, char buf
- * Output: no
- * Return: char number
- ***********************************************************************/
+* Name: fts_tpfwver_show
+* Brief:  show tp fw vwersion
+* Input: device, device attribute, char buf
+* Output: no
+* Return: char number
+***********************************************************************/
 static ssize_t fts_tpfwver_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -427,12 +427,12 @@ static ssize_t fts_tpfwver_show(struct device *dev,
 	return num_read_chars;
 }
 /************************************************************************
- * Name: fts_tpfwver_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_tpfwver_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_tpfwver_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -531,12 +531,12 @@ static void fts_str_to_bytes(char *bufStr, int iLen,
 	fts_hex_to_str(bufStr, iNumChLen, uBytes, iBytesLen);
 }
 /************************************************************************
- * Name: fts_tprwreg_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_tprwreg_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_tprwreg_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -572,12 +572,12 @@ static ssize_t fts_tprwreg_show(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_tprwreg_store
- * Brief:  read/write register
- * Input: device, device attribute, char buf, char count
- * Output: print register value
- * Return: char count
- ***********************************************************************/
+* Name: fts_tprwreg_store
+* Brief:  read/write register
+* Input: device, device attribute, char buf, char count
+* Output: print register value
+* Return: char count
+***********************************************************************/
 static ssize_t fts_tprwreg_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -601,24 +601,24 @@ static ssize_t fts_tprwreg_store(struct device *dev,
 	retval = kstrtoul(valbuf, 16, &wmreg);
 	fts_str_to_bytes((char *)buf, num_read_chars, valbuf, &retval);
 
-	if (retval == 1) {
+	if (1 == retval) {
 		regaddr = valbuf[0];
 		retval = 0;
-	} else if (retval == 2) {
+	} else if (2 == retval) {
 		regaddr = valbuf[0];
 		regvalue = valbuf[1];
 		retval = 0;
 	} else
 		retval = -1;
 
-	if (retval != 0) {
+	if (0 != retval) {
 		FTS_ERROR("ERROR: Can't convert to number %s", buf);
 		goto error_return;
 	}
 #if FTS_ESDCHECK_EN
 	fts_esdcheck_proc_busy(1);
 #endif
-	if (num_read_chars == 2) {
+	if (2 == num_read_chars) {
 		g_rwreg_result.op = 0;
 		g_rwreg_result.reg = regaddr;
 		/*read register*/
@@ -662,12 +662,12 @@ error_return:
 	return count;
 }
 /************************************************************************
- * Name: fts_fwupdate_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_fwupdate_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_fwupdate_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -676,12 +676,12 @@ static ssize_t fts_fwupdate_show(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_fwupdate_store
- * Brief:  upgrade from *.i
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: char count
- ***********************************************************************/
+* Name: fts_fwupdate_store
+* Brief:  upgrade from *.i
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: char count
+***********************************************************************/
 static ssize_t fts_fwupdate_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -703,12 +703,12 @@ static ssize_t fts_fwupdate_store(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_fwupgradeapp_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_fwupgradeapp_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_fwupgradeapp_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -717,12 +717,12 @@ static ssize_t fts_fwupgradeapp_show(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_fwupgradeapp_store
- * Brief:  upgrade from app.bin
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: char count
- ***********************************************************************/
+* Name: fts_fwupgradeapp_store
+* Brief:  upgrade from app.bin
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: char count
+***********************************************************************/
 static ssize_t fts_fwupgradeapp_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -749,12 +749,12 @@ static ssize_t fts_fwupgradeapp_store(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_driverversion_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_driverversion_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_driverversion_show(struct device *dev,
 			struct device_attribute *attr, char *buf)
 {
@@ -769,12 +769,12 @@ static ssize_t fts_driverversion_show(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_driverversion_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_driverversion_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_driverversion_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -784,12 +784,12 @@ static ssize_t fts_driverversion_store(struct device *dev,
 
 #if FTS_ESDCHECK_EN
 /************************************************************************
- * Name: fts_esdcheck_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_esdcheck_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_esdcheck_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -809,12 +809,12 @@ static ssize_t fts_esdcheck_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_esdcheck_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_esdcheck_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_esdcheck_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -831,12 +831,12 @@ static ssize_t fts_esdcheck_show(struct device *dev,
 }
 #endif
 /************************************************************************
- * Name: fts_module_config_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_module_config_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_module_config_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -900,12 +900,12 @@ static ssize_t fts_module_config_show(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_module_config_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_module_config_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_module_config_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -914,12 +914,12 @@ static ssize_t fts_module_config_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_show_log_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_show_log_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_show_log_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -935,12 +935,12 @@ static ssize_t fts_show_log_show(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_show_log_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_show_log_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_show_log_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -960,12 +960,12 @@ static ssize_t fts_show_log_store(struct device *dev,
 	return count;
 }
 /************************************************************************
- * Name: fts_dumpreg_store
- * Brief:  no
- * Input: device, device attribute, char buf, char count
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_dumpreg_store
+* Brief:  no
+* Input: device, device attribute, char buf, char count
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_dumpreg_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -974,12 +974,12 @@ static ssize_t fts_dumpreg_store(struct device *dev,
 }
 
 /************************************************************************
- * Name: fts_dumpreg_show
- * Brief:  no
- * Input: device, device attribute, char buf
- * Output: no
- * Return: EPERM
- ***********************************************************************/
+* Name: fts_dumpreg_show
+* Brief:  no
+* Input: device, device attribute, char buf
+* Output: no
+* Return: EPERM
+***********************************************************************/
 static ssize_t fts_dumpreg_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -1043,47 +1043,47 @@ static ssize_t fts_dumpreg_show(struct device *dev,
 /****************************************/
 /* sysfs */
 /* get the fw version
- *   example:cat fw_version
- */
-static DEVICE_ATTR(fts_fw_version, 0644,
+*   example:cat fw_version
+*/
+static DEVICE_ATTR(fts_fw_version, S_IRUGO|S_IWUSR,
 		fts_tpfwver_show, fts_tpfwver_store);
 
 /* upgrade from *.i
- *   example: echo 1 > fw_update
- */
-static DEVICE_ATTR(fts_fw_update, 0644,
+*   example: echo 1 > fw_update
+*/
+static DEVICE_ATTR(fts_fw_update, S_IRUGO|S_IWUSR,
 		fts_fwupdate_show, fts_fwupdate_store);
 
 /* read and write register
- *   read example: echo 88 > rw_reg ---read register 0x88
- *   write example:echo 8807 > rw_reg ---write 0x07 into register 0x88
- *
- *   note:the number of input must be 2 or 4.if it not enough,
- *	 please fill in the 0.
- */
-static DEVICE_ATTR(fts_rw_reg, 0644,
+*   read example: echo 88 > rw_reg ---read register 0x88
+*   write example:echo 8807 > rw_reg ---write 0x07 into register 0x88
+*
+*   note:the number of input must be 2 or 4.if it not enough,
+*	 please fill in the 0.
+*/
+static DEVICE_ATTR(fts_rw_reg, S_IRUGO|S_IWUSR,
 		fts_tprwreg_show, fts_tprwreg_store);
 
 /*  upgrade from app.bin
- *	example:echo "*_app.bin" > upgrade_app
- */
-static DEVICE_ATTR(fts_upgrade_app, 0644,
+*	example:echo "*_app.bin" > upgrade_app
+*/
+static DEVICE_ATTR(fts_upgrade_app, S_IRUGO|S_IWUSR,
 		fts_fwupgradeapp_show, fts_fwupgradeapp_store);
-static DEVICE_ATTR(fts_driver_version, 0644,
+static DEVICE_ATTR(fts_driver_version, S_IRUGO|S_IWUSR,
 		fts_driverversion_show, fts_driverversion_store);
-static DEVICE_ATTR(fts_dump_reg, 0644,
+static DEVICE_ATTR(fts_dump_reg, S_IRUGO|S_IWUSR,
 		fts_dumpreg_show, fts_dumpreg_store);
-static DEVICE_ATTR(fts_show_log, 0644,
+static DEVICE_ATTR(fts_show_log, S_IRUGO|S_IWUSR,
 		fts_show_log_show, fts_show_log_store);
-static DEVICE_ATTR(fts_module_config, 0644,
+static DEVICE_ATTR(fts_module_config, S_IRUGO|S_IWUSR,
 		fts_module_config_show, fts_module_config_store);
-static DEVICE_ATTR(fts_hw_reset, 0644,
+static DEVICE_ATTR(fts_hw_reset, S_IRUGO|S_IWUSR,
 		fts_hw_reset_show, fts_hw_reset_store);
-static DEVICE_ATTR(fts_irq, 0644,
+static DEVICE_ATTR(fts_irq, S_IRUGO|S_IWUSR,
 		fts_irq_show, fts_irq_store);
 
 #if FTS_ESDCHECK_EN
-static DEVICE_ATTR(fts_esd_check, 0644,
+static DEVICE_ATTR(fts_esd_check, S_IRUGO|S_IWUSR,
 		fts_esdcheck_show, fts_esdcheck_store);
 #endif
 
@@ -1110,18 +1110,18 @@ static struct attribute_group fts_attribute_group = {
 };
 
 /************************************************************************
- * Name: fts_create_sysfs
- * Brief:  create sysfs for debug
- * Input: i2c info
- * Output: no
- * Return: success =0
- ***********************************************************************/
+* Name: fts_create_sysfs
+* Brief:  create sysfs for debug
+* Input: i2c info
+* Output: no
+* Return: success =0
+***********************************************************************/
 int fts_create_sysfs(struct i2c_client *client)
 {
 	int err;
 
 	err = sysfs_create_group(&client->dev.kobj, &fts_attribute_group);
-	if (err != 0) {
+	if (0 != err) {
 		FTS_ERROR("[EX]: sysfs_create_group() failed!!");
 		sysfs_remove_group(&client->dev.kobj, &fts_attribute_group);
 		return -EIO;
@@ -1132,12 +1132,12 @@ int fts_create_sysfs(struct i2c_client *client)
 	return err;
 }
 /************************************************************************
- * Name: fts_remove_sysfs
- * Brief:  remove sys
- * Input: i2c info
- * Output: no
- * Return: no
- ***********************************************************************/
+* Name: fts_remove_sysfs
+* Brief:  remove sys
+* Input: i2c info
+* Output: no
+* Return: no
+***********************************************************************/
 int fts_remove_sysfs(struct i2c_client *client)
 {
 	sysfs_remove_group(&client->dev.kobj, &fts_attribute_group);

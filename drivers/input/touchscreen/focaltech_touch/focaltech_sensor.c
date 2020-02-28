@@ -16,31 +16,31 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_esdcheck.c
- *
- *    Author: Focaltech Driver Team
- *
- *   Created: 2016-08-03
- *
- *  Abstract: Sensor
- *
- *   Version: v1.0
- *
- * Revision History:
- *        v1.0:
- *            First release. By luougojin 2016-08-03
- *****************************************************************************/
+*
+* File Name: focaltech_esdcheck.c
+*
+*    Author: Focaltech Driver Team
+*
+*   Created: 2016-08-03
+*
+*  Abstract: Sensor
+*
+*   Version: v1.0
+*
+* Revision History:
+*        v1.0:
+*            First release. By luougojin 2016-08-03
+*****************************************************************************/
 
 /*****************************************************************************
- * Included header files
- *****************************************************************************/
+* Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 #if FTS_PSENSOR_EN
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 /* psensor register address*/
 #define FTS_REG_PSENSOR_ENABLE                  0xB0
 #define FTS_REG_PSENSOR_STATUS                  0x01
@@ -55,8 +55,8 @@
 #define FTS_PSENSOR_WAKEUP_TIMEOUT              500
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 static struct sensors_classdev __maybe_unused sensors_proximity_cdev = {
 
 	.name = "fts-proximity",
@@ -77,15 +77,15 @@ static struct sensors_classdev __maybe_unused sensors_proximity_cdev = {
 };
 
 /*****************************************************************************
- * functions body
- *****************************************************************************/
+* functions body
+*****************************************************************************/
 /*****************************************************************************
- *  Name: fts_psensor_support_enabled
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_psensor_support_enabled
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static inline bool fts_psensor_support_enabled(void)
 {
 	/*return config_enabled(CONFIG_TOUCHSCREEN_FTS_PSENSOR);*/
@@ -93,12 +93,12 @@ static inline bool fts_psensor_support_enabled(void)
 }
 
 /*****************************************************************************
- *  Name: fts_psensor_enable
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_psensor_enable
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_psensor_enable(struct fts_ts_data *data, int enable)
 {
 	u8 state;
@@ -120,12 +120,12 @@ static void fts_psensor_enable(struct fts_ts_data *data, int enable)
 }
 
 /*****************************************************************************
- *  Name: fts_psensor_enable_set
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_psensor_enable_set
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_psensor_enable_set(struct sensors_classdev *sensors_cdev,
 			unsigned int enable)
 {
@@ -149,12 +149,12 @@ static int fts_psensor_enable_set(struct sensors_classdev *sensors_cdev,
 }
 
 /*****************************************************************************
- *  Name: fts_read_tp_psensor_data
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_read_tp_psensor_data
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_read_tp_psensor_data(struct fts_ts_data *data)
 {
 	u8 psensor_status;

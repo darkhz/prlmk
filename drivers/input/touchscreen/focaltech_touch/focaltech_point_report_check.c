@@ -16,63 +16,63 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_point_report_check.c
- *
- *    Author: WangTao
- *
- *   Created: 2016-11-16
- *
- *  Abstract: point report check function
- *
- *   Version: v1.0
- *
- * Revision History:
- *        v1.0:
- *            First release. By WangTao 2016-11-16
- *****************************************************************************/
+*
+* File Name: focaltech_point_report_check.c
+*
+*    Author: WangTao
+*
+*   Created: 2016-11-16
+*
+*  Abstract: point report check function
+*
+*   Version: v1.0
+*
+* Revision History:
+*        v1.0:
+*            First release. By WangTao 2016-11-16
+*****************************************************************************/
 
 /*****************************************************************************
- * Included header files
- *****************************************************************************/
+* Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 #if FTS_POINT_REPORT_CHECK_EN
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 #define POINT_REPORT_CHECK_WAIT_TIME              200    /* ms */
 
 /*****************************************************************************
- * Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* Private enumerations, structures and unions using typedef
+*****************************************************************************/
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 static struct delayed_work fts_point_report_check_work;
 static struct workqueue_struct *fts_point_report_check_workqueue;
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 
 /*****************************************************************************
- * functions body
- *****************************************************************************/
+* functions body
+*****************************************************************************/
 
 
 /*****************************************************************************
- *  Name: fts_point_report_check_func
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_point_report_check_func
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_point_report_check_func(struct work_struct *work)
 {
 
@@ -111,12 +111,12 @@ void fts_point_report_check_queue_work(void)
 }
 
 /*****************************************************************************
- *  Name: fts_point_report_check_init
- *  Brief:
- *  Input:
- *  Output:
- *  Return: < 0: Fail to create esd check queue
- *****************************************************************************/
+*  Name: fts_point_report_check_init
+*  Brief:
+*  Input:
+*  Output:
+*  Return: < 0: Fail to create esd check queue
+*****************************************************************************/
 int fts_point_report_check_init(void)
 {
 	FTS_FUNC_ENTER();
@@ -136,12 +136,12 @@ int fts_point_report_check_init(void)
 }
 
 /*****************************************************************************
- *  Name: fts_point_report_check_exit
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_point_report_check_exit
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 int fts_point_report_check_exit(void)
 {
 	FTS_FUNC_ENTER();

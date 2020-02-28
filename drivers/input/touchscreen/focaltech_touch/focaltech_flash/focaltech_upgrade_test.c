@@ -16,52 +16,53 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_upgrade_test.c
- *
- * Author:    fupeipei
- *
- * Created:    2016-08-22
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_upgrade_test.c
+*
+* Author:    fupeipei
+*
+* Created:    2016-08-22
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "../focaltech_core.h"
 #include "../focaltech_flash.h"
+#include <linux/wakelock.h>
 #include <linux/timer.h>
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 #define FTS_GET_UPGRADE_TIME                    0
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 
 #define FTS_DEBUG_UPGRADE(fmt, args...) do {\
 			pr_err("[FTS][UPGRADE]:################\n");\
 			pr_err("[FTS][UPGRADE]: "fmt"\n", ##args);\
 			pr_err("[FTS][UPGRADE]:################\n");\
-		} while (0)\
+		   } while (0)\
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 #if (FTS_UPGRADE_STRESS_TEST)
 /************************************************************************
- * Name: fts_ctpm_auto_upgrade_pingpong
- * Brief:  0
- * Input:  0
- * Output: 0
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_auto_upgrade_pingpong
+* Brief:  0
+* Input:  0
+* Output: 0
+* Return: 0
+***********************************************************************/
 static int fts_ctpm_auto_upgrade_pingpong(struct i2c_client *client)
 {
 	u8 uc_tp_fm_ver;
@@ -86,8 +87,7 @@ static int fts_ctpm_auto_upgrade_pingpong(struct i2c_client *client)
 		} else {
 			/* upgrade fail */
 			/* if upgrade fail, reset to run ROM.
-			 * if app in flash is ok. TP will work success
-			 */
+			 * if app in flash is ok. TP will work success */
 			FTS_INFO("[UPGRADE]: upgrade fail, reset now!!");
 			fts_ctpm_rom_or_pram_reset(client);
 		}
@@ -99,12 +99,12 @@ static int fts_ctpm_auto_upgrade_pingpong(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_auto_upgrade
- * Brief:  0
- * Input:  0
- * Output: 0
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_auto_upgrade
+* Brief:  0
+* Input:  0
+* Output: 0
+* Return: 0
+***********************************************************************/
 void fts_ctpm_display_upgrade_time(bool start_time)
 {
 #if FTS_GET_UPGRADE_TIME
@@ -126,12 +126,12 @@ void fts_ctpm_display_upgrade_time(bool start_time)
 }
 
 /************************************************************************
- * Name: fts_ctpm_auto_upgrade
- * Brief:  0
- * Input:  0
- * Output: 0
- * Return: 0
- ***********************************************************************/
+* Name: fts_ctpm_auto_upgrade
+* Brief:  0
+* Input:  0
+* Output: 0
+* Return: 0
+***********************************************************************/
 int fts_ctpm_auto_upgrade(struct i2c_client *client)
 {
 	int i_ret = 0;

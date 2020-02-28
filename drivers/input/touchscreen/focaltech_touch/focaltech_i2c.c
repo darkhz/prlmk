@@ -16,59 +16,59 @@
  */
 
 /************************************************************************
- *
- * File Name: focaltech_i2c.c
- *
- *    Author: fupeipei
- *
- *   Created: 2016-08-04
- *
- *  Abstract: i2c communication with TP
- *
- *   Version: v1.0
- *
- * Revision History:
- *        v1.0:
- *            First release. By fupeipei 2016-08-04
- ************************************************************************/
+*
+* File Name: focaltech_i2c.c
+*
+*    Author: fupeipei
+*
+*   Created: 2016-08-04
+*
+*  Abstract: i2c communication with TP
+*
+*   Version: v1.0
+*
+* Revision History:
+*        v1.0:
+*            First release. By fupeipei 2016-08-04
+************************************************************************/
 
 /*****************************************************************************
- * Included header files
- *****************************************************************************/
+* Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 
 /*****************************************************************************
- * Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* Private enumerations, structures and unions using typedef
+*****************************************************************************/
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 static DEFINE_MUTEX(i2c_rw_access);
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 
 /*****************************************************************************
- * functions body
- *****************************************************************************/
+* functions body
+*****************************************************************************/
 
 /************************************************************************
- * Name: fts_i2c_read
- * Brief: i2c read
- * Input: i2c info, write buf, write len, read buf, read len
- * Output: get data in the 3rd buf
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_i2c_read
+* Brief: i2c read
+* Input: i2c info, write buf, write len, read buf, read len
+* Output: get data in the 3rd buf
+* Return: fail <0
+***********************************************************************/
 int fts_i2c_read(struct i2c_client *client, char *writebuf,
 		int writelen, char *readbuf, int readlen)
 {
@@ -116,12 +116,12 @@ int fts_i2c_read(struct i2c_client *client, char *writebuf,
 }
 
 /************************************************************************
- * Name: fts_i2c_write
- * Brief: i2c write
- * Input: i2c info, write buf, write len
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_i2c_write
+* Brief: i2c write
+* Input: i2c info, write buf, write len
+* Output: no
+* Return: fail <0
+***********************************************************************/
 int fts_i2c_write(struct i2c_client *client, char *writebuf, int writelen)
 {
 	int ret = 0;
@@ -148,12 +148,12 @@ int fts_i2c_write(struct i2c_client *client, char *writebuf, int writelen)
 }
 
 /************************************************************************
- * Name: fts_i2c_write_reg
- * Brief: write register
- * Input: i2c info, reg address, reg value
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_i2c_write_reg
+* Brief: write register
+* Input: i2c info, reg address, reg value
+* Output: no
+* Return: fail <0
+***********************************************************************/
 int fts_i2c_write_reg(struct i2c_client *client, u8 regaddr, u8 regvalue)
 {
 	u8 buf[2] = {0};
@@ -164,24 +164,24 @@ int fts_i2c_write_reg(struct i2c_client *client, u8 regaddr, u8 regvalue)
 }
 
 /************************************************************************
- * Name: fts_i2c_read_reg
- * Brief: read register
- * Input: i2c info, reg address, reg value
- * Output: get reg value
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_i2c_read_reg
+* Brief: read register
+* Input: i2c info, reg address, reg value
+* Output: get reg value
+* Return: fail <0
+***********************************************************************/
 int fts_i2c_read_reg(struct i2c_client *client, u8 regaddr, u8 *regvalue)
 {
 	return fts_i2c_read(client, &regaddr, 1, regvalue, 1);
 }
 
 /************************************************************************
- * Name: fts_i2c_init
- * Brief: fts i2c init
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_i2c_init
+* Brief: fts i2c init
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_i2c_init(void)
 {
 	FTS_FUNC_ENTER();
@@ -190,12 +190,12 @@ int fts_i2c_init(void)
 	return 0;
 }
 /************************************************************************
- * Name: fts_i2c_exit
- * Brief: fts i2c exit
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_i2c_exit
+* Brief: fts i2c exit
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_i2c_exit(void)
 {
 	FTS_FUNC_ENTER();

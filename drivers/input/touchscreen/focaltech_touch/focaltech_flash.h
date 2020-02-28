@@ -1,26 +1,26 @@
 /************************************************************************
- * Copyright (C) 2010-2017, Focaltech Systems (R)£¬All Rights Reserved.
- *
- * File Name: focaltech_flash.h
- *
- *    Author: fupeipei
- *
- *   Created: 2016-08-07
- *
- *  Abstract:
- *
- ************************************************************************/
+* Copyright (C) 2010-2017, Focaltech Systems (R)£¬All Rights Reserved.
+*
+* File Name: focaltech_flash.h
+*
+*    Author: fupeipei
+*
+*   Created: 2016-08-07
+*
+*  Abstract:
+*
+************************************************************************/
 #ifndef __LINUX_FOCALTECH_FLASH_H__
 #define __LINUX_FOCALTECH_FLASH_H__
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "focaltech_flash/focaltech_upgrade_common.h"
 
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 #define FTS_REG_ECC                                  0xCC
 #define FTS_RST_CMD_REG2                             0xBC
 #define FTS_READ_ID_REG                              0x90
@@ -81,8 +81,8 @@ enum FILE_SIZE_TYPE {
 #undef FTS_UPGRADE_PRAMBOOT
 
 /*****************************************************************************
- * Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* Private enumerations, structures and unions using typedef
+*****************************************************************************/
 /* IC info */
 
 struct fts_upgrade_fun {
@@ -97,12 +97,12 @@ struct fts_upgrade_fun {
 extern struct fts_upgrade_fun fts_updatefun;
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 extern u8 CTPM_FW[];
 extern u8 CTPM_FW2[];
 extern u8 CTPM_FW3[];
@@ -127,8 +127,8 @@ int fts_fw_upgrade(struct device *dev, bool force);
 int fts_ctpm_auto_clb(struct i2c_client *client);
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 u32 fts_getsize(u8 fw_type);
 int fts_ctpm_i2c_hid2std(struct i2c_client *client);
 void fts_ctpm_rom_or_pram_reset(struct i2c_client *client);

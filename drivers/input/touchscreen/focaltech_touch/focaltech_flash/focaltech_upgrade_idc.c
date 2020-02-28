@@ -16,47 +16,47 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_upgrade_idc.c
- *
- * Author:    fupeipei
- *
- * Created:    2016-08-22
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_upgrade_idc.c
+*
+* Author:    fupeipei
+*
+* Created:    2016-08-22
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "../focaltech_core.h"
 
 #if (FTS_CHIP_IDC == 1)
 #include "../focaltech_flash.h"
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 static u8 upgrade_ecc;
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 
 /************************************************************************
- * Name: fts_ctpm_upgrade_idc_init
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_upgrade_idc_init
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_upgrade_idc_init(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -87,12 +87,12 @@ int fts_ctpm_upgrade_idc_init(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_start_pramboot
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_start_pramboot
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 void fts_ctpm_start_pramboot(struct i2c_client *client)
 {
 	u8 auc_i2c_write_buf[10];
@@ -104,12 +104,12 @@ void fts_ctpm_start_pramboot(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_start_fw_upgrade
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_start_fw_upgrade
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_start_fw_upgrade(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -126,12 +126,12 @@ int fts_ctpm_start_fw_upgrade(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_check_run_state
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_check_run_state
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 bool fts_ctpm_check_run_state(struct i2c_client *client, int rstate)
 {
 	int i = 0;
@@ -150,12 +150,12 @@ bool fts_ctpm_check_run_state(struct i2c_client *client, int rstate)
 }
 
 /************************************************************************
- * Name: fts_ctpm_pramboot_ecc
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_pramboot_ecc
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_pramboot_ecc(struct i2c_client *client)
 {
 	u8 auc_i2c_write_buf[10];
@@ -164,8 +164,7 @@ int fts_ctpm_pramboot_ecc(struct i2c_client *client)
 	FTS_FUNC_ENTER();
 
 	/* read out checksum,
-	 * if pramboot checksum != host checksum, upgrade fail
-	 */
+	 * if pramboot checksum != host checksum, upgrade fail*/
 	FTS_INFO("[UPGRADE]******read out pramboot checksum******");
 	auc_i2c_write_buf[0] = 0xcc;
 	usleep_range(2000, 4000);
@@ -187,12 +186,12 @@ int fts_ctpm_pramboot_ecc(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_upgrade_ecc
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_upgrade_ecc
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_upgrade_ecc(struct i2c_client *client, u32 startaddr, u32 length)
 {
 	u32 i = 0;
@@ -279,12 +278,12 @@ int fts_ctpm_upgrade_ecc(struct i2c_client *client, u32 startaddr, u32 length)
 }
 
 /************************************************************************
- * Name: fts_ctpm_erase_flash
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_erase_flash
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_erase_flash(struct i2c_client *client)
 {
 	u32 i = 0;
@@ -300,8 +299,7 @@ int fts_ctpm_erase_flash(struct i2c_client *client)
 
 	for (i = 0; i < 15; i++) {
 		/* get the erase app status,
-		 * if get 0xF0AA£¬erase flash success
-		 */
+		 * if get 0xF0AA£¬erase flash success*/
 		auc_i2c_write_buf[0] = 0x6a;
 		reg_val[0] = reg_val[1] = 0x00;
 		fts_i2c_read(client, auc_i2c_write_buf, 1, reg_val, 2);
@@ -323,12 +321,12 @@ int fts_ctpm_erase_flash(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_write_pramboot_for_idc
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_write_pramboot_for_idc
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_write_pramboot_for_idc(struct i2c_client *client,
 		u32 length, u8 *readbuf)
 {
@@ -372,12 +370,12 @@ int fts_ctpm_write_pramboot_for_idc(struct i2c_client *client,
 }
 
 /************************************************************************
- * Name: fts_ctpm_write_app_for_idc
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_write_app_for_idc
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 int fts_ctpm_write_app_for_idc(struct i2c_client *client,
 			u32 length, u8 *readbuf)
 {
@@ -423,8 +421,7 @@ int fts_ctpm_write_app_for_idc(struct i2c_client *client,
 
 		for (i = 0; i < 30; i++) {
 			/* read status and check
-			 * if the app writing is finished
-			 */
+			 * if the app writing is finished */
 			auc_i2c_write_buf[0] = 0x6a;
 			reg_val[0] = reg_val[1] = 0x00;
 			fts_i2c_read(client, auc_i2c_write_buf, 1, reg_val, 2);
@@ -470,24 +467,24 @@ int fts_ctpm_write_app_for_idc(struct i2c_client *client,
 #define APP2_START	(APP_VERIF_ADDR + APP_VERIF_LEN + FW_CFG_TOTAL_SIZE)
 #define APP2_ECC_ADDR	(APP_VERIF_ADDR + APP_P2_ECC)
 /*****************************************************************************
- * Name: DrvReadPram16
- * Brief: Get Word
- * Input:
- * Output:
- * Return:
- *****************************************************************************/
+* Name: DrvReadPram16
+* Brief: Get Word
+* Input:
+* Output:
+* Return:
+*****************************************************************************/
 static u16 data_word(u8 *pbt_buf, u32 addr)
 {
 	return (((u16)pbt_buf[addr]<<8) + pbt_buf[addr+1]);
 }
 
 /******************************************************************************
- * Name: GetCrc16
- * Brief:
- * Input:
- * Output:
- * Return:
- *****************************************************************************/
+* Name: GetCrc16
+* Brief:
+* Input:
+* Output:
+* Return:
+*****************************************************************************/
 static u16 crc_calc(u8 *pbt_buf, u32 addr, u16 length)
 {
 	u16 cFcs = 0;
@@ -509,12 +506,12 @@ static u16 crc_calc(u8 *pbt_buf, u32 addr, u16 length)
 }
 
 /*****************************************************************************
- *   Name: task_check_mem
- *  Brief:
- *  Input:
- * Output:
- * Return:
- *****************************************************************************/
+*   Name: task_check_mem
+*  Brief:
+*  Input:
+* Output:
+* Return:
+*****************************************************************************/
 static bool ecc_check(u8 *pbt_buf, u32 star_addr, u32 len, u16 ecc_addr)
 {
 	u16 ecc1;
@@ -539,12 +536,12 @@ static bool ecc_check(u8 *pbt_buf, u32 star_addr, u32 len, u16 ecc_addr)
 }
 
 /*****************************************************************************
- * Name: fts_check_app_bin_valid_idc
- * Brief:
- * Input:
- * Output:
- * Return:
- *****************************************************************************/
+* Name: fts_check_app_bin_valid_idc
+* Brief:
+* Input:
+* Output:
+* Return:
+*****************************************************************************/
 bool fts_check_app_bin_valid_idc(u8 *pbt_buf)
 {
 	u32 len;

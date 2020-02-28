@@ -16,22 +16,22 @@
  */
 
 /*****************************************************************************
- *
- * File Name: focaltech_upgrade_ft8006.c
- *
- * Author:    fupeipei
- *
- * Created:    2016-08-15
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_upgrade_ft8006.c
+*
+* Author:    fupeipei
+*
+* Created:    2016-08-15
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "../focaltech_core.h"
 
 #if (FTS_CHIP_TYPE == _FT8006)
@@ -39,8 +39,8 @@
 #include "focaltech_upgrade_common.h"
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 #define APP_FILE_MAX_SIZE           (93 * 1024)
 #define APP_FILE_MIN_SIZE           (8)
 #define APP_FILE_VER_MAPPING        (0x10E)
@@ -56,8 +56,8 @@
 #define LCD_CFG_MIN_SIZE            (8)
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 static int fts_ctpm_get_i_file(struct i2c_client *client, int fw_valid);
 static int fts_ctpm_get_app_i_file_ver(void);
 static int fts_ctpm_get_app_bin_file_ver(char *firmware_name);
@@ -81,16 +81,16 @@ struct fts_upgrade_fun fts_updatefun = {
 };
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 #if (FTS_GET_VENDOR_ID_NUM != 0)
 /************************************************************************
- * Name: fts_ctpm_get_vendor_id_flash
- * Brief:
- * Input:
- * Output:
- * Return:
- ***********************************************************************/
+* Name: fts_ctpm_get_vendor_id_flash
+* Brief:
+* Input:
+* Output:
+* Return:
+***********************************************************************/
 static int fts_ctpm_get_vendor_id_flash(struct i2c_client *client,
 				u8 *vendor_id)
 {
@@ -133,13 +133,13 @@ static int fts_ctpm_get_vendor_id_flash(struct i2c_client *client,
 #endif
 
 /************************************************************************
- * Name: fts_ft5x46_get_i_file
- * Brief: get .i file
- * Input:
- * Output:
- * Return: 0   - ok
- *		 <0 - fail
- ***********************************************************************/
+* Name: fts_ft5x46_get_i_file
+* Brief: get .i file
+* Input:
+* Output:
+* Return: 0   - ok
+*		 <0 - fail
+***********************************************************************/
 static int fts_ctpm_get_i_file(struct i2c_client *client, int fw_valid)
 {
 	int ret = 0;
@@ -198,12 +198,12 @@ static int fts_ctpm_get_i_file(struct i2c_client *client, int fw_valid)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_app_bin_file_ver
- * Brief:  get .i file version
- * Input: no
- * Output: no
- * Return: fw version
- ***********************************************************************/
+* Name: fts_ctpm_get_app_bin_file_ver
+* Brief:  get .i file version
+* Input: no
+* Output: no
+* Return: fw version
+***********************************************************************/
 static int fts_ctpm_get_app_bin_file_ver(char *firmware_name)
 {
 	u8 *pbt_buf = NULL;
@@ -234,12 +234,12 @@ static int fts_ctpm_get_app_bin_file_ver(char *firmware_name)
 }
 
 /************************************************************************
- * Name: fts_ctpm_get_app_i_file_ver
- * Brief:  get .i file version
- * Input: no
- * Output: no
- * Return: fw version
- ***********************************************************************/
+* Name: fts_ctpm_get_app_i_file_ver
+* Brief:  get .i file version
+* Input: no
+* Output: no
+* Return: fw version
+***********************************************************************/
 static int fts_ctpm_get_app_i_file_ver(void)
 {
 	int fwsize = g_fw_len;
@@ -253,12 +253,12 @@ static int fts_ctpm_get_app_i_file_ver(void)
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_use_buf
- * Brief: fw upgrade
- * Input: i2c info, file buf, file len
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_use_buf
+* Brief: fw upgrade
+* Input: i2c info, file buf, file len
+* Output: no
+* Return: fail <0
+***********************************************************************/
 static int fts_ctpm_fw_upgrade_use_buf(struct i2c_client *client,
 			u8 *pbt_buf, u32 dw_length)
 {
@@ -464,12 +464,12 @@ static int fts_ctpm_fw_upgrade_use_buf(struct i2c_client *client,
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_use_buf
- * Brief: fw upgrade
- * Input: i2c info, file buf, file len
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_use_buf
+* Brief: fw upgrade
+* Input: i2c info, file buf, file len
+* Output: no
+* Return: fail <0
+***********************************************************************/
 static int fts_ctpm_lcd_cfg_upgrade_use_buf(struct i2c_client *client,
 				u8 *pbt_buf, u32 dw_length)
 {
@@ -716,12 +716,12 @@ static int fts_ctpm_lcd_cfg_upgrade_use_buf(struct i2c_client *client,
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_with_app_i_file
- * Brief:  upgrade with *.i file
- * Input: i2c info
- * Output:
- * Return: fail < 0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_with_app_i_file
+* Brief:  upgrade with *.i file
+* Input: i2c info
+* Output:
+* Return: fail < 0
+***********************************************************************/
 static int fts_ctpm_fw_upgrade_with_app_i_file(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -747,12 +747,12 @@ static int fts_ctpm_fw_upgrade_with_app_i_file(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_with_app_bin_file
- * Brief: upgrade with *.bin file
- * Input: i2c info, file name
- * Output: no
- * Return: success =0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_with_app_bin_file
+* Brief: upgrade with *.bin file
+* Input: i2c info, file name
+* Output: no
+* Return: success =0
+***********************************************************************/
 static int fts_ctpm_fw_upgrade_with_app_bin_file(struct i2c_client *client,
 					char *firmware_name)
 {
@@ -771,7 +771,7 @@ static int fts_ctpm_fw_upgrade_with_app_bin_file(struct i2c_client *client,
 	}
 
 	pbt_buf = kmalloc(fwsize + 1, GFP_KERNEL);
-	if (pbt_buf == NULL) {
+	if (NULL == pbt_buf) {
 		FTS_ERROR(" malloc pbt_buf failed ");
 		goto ERROR_BIN;
 	}
@@ -806,12 +806,12 @@ ERROR_BIN:
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_with_lcd_cfg_i_file
- * Brief:  upgrade with *.i file
- * Input: i2c info
- * Output: no
- * Return: fail <0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_with_lcd_cfg_i_file
+* Brief:  upgrade with *.i file
+* Input: i2c info
+* Output: no
+* Return: fail <0
+***********************************************************************/
 static int fts_ctpm_fw_upgrade_with_lcd_cfg_i_file(struct i2c_client *client)
 {
 	int i_ret = 0;
@@ -838,12 +838,12 @@ static int fts_ctpm_fw_upgrade_with_lcd_cfg_i_file(struct i2c_client *client)
 }
 
 /************************************************************************
- * Name: fts_ctpm_fw_upgrade_with_lcd_cfg_bin_file
- * Brief:  upgrade with *.bin file
- * Input: i2c info, file name
- * Output: no
- * Return: success =0
- ***********************************************************************/
+* Name: fts_ctpm_fw_upgrade_with_lcd_cfg_bin_file
+* Brief:  upgrade with *.bin file
+* Input: i2c info, file name
+* Output: no
+* Return: success =0
+***********************************************************************/
 static int fts_ctpm_fw_upgrade_with_lcd_cfg_bin_file(struct i2c_client *client,
 						char *firmware_name)
 {

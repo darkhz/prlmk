@@ -15,22 +15,22 @@
  *
  */
 /*****************************************************************************
- *
- * File Name: focaltech_core.c
- *
- * Author: Focaltech Driver Team
- *
- * Created: 2016-08-08
- *
- * Abstract:
- *
- * Reference:
- *
- *****************************************************************************/
+*
+* File Name: focaltech_core.c
+*
+* Author: Focaltech Driver Team
+*
+* Created: 2016-08-08
+*
+* Abstract:
+*
+* Reference:
+*
+*****************************************************************************/
 
 /*****************************************************************************
- * Included header files
- *****************************************************************************/
+* Included header files
+*****************************************************************************/
 #include "focaltech_core.h"
 
 
@@ -43,8 +43,8 @@
 #endif
 
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 #define FTS_DRIVER_NAME		"fts_ts"
 #define INTERVAL_READ_REG	20  /* interval time per read reg unit:ms */
 #define TIMEOUT_READ_REG	300 /* timeout of read reg unit:ms */
@@ -56,8 +56,8 @@
 #endif
 #define FTS_READ_TOUCH_BUFFER_DIVIDED	   0
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- ******************************************************************************/
+* Global variable or extern global variabls/functions
+******************************************************************************/
 struct i2c_client *fts_i2c_client;
 struct fts_ts_data *fts_wq_data;
 struct input_dev *fts_input_dev;
@@ -65,7 +65,7 @@ struct input_dev *fts_input_dev;
 #if FTS_DEBUG_EN
 int g_show_log = 1;
 #else
-int g_show_log;
+int g_show_log = 0;
 #endif
 
 #if (FTS_DEBUG_EN && (FTS_DEBUG_LEVEL == 2))
@@ -73,23 +73,23 @@ char g_sz_debug[1024] = {0};
 #endif
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 static void fts_release_all_finger(void);
 static int fts_ts_suspend(struct device *dev);
 static int fts_ts_resume(struct device *dev);
 
 
 /*****************************************************************************
- *  Name: fts_wait_tp_to_valid
- *  Brief:   Read chip id until TP FW become valid,
- *           need call when reset/power on/resume...
- *           1. Read Chip ID per INTERVAL_READ_REG(20ms)
- *           2. Timeout: TIMEOUT_READ_REG(300ms)
- *  Input:
- *  Output:
- *  Return: 0 - Get correct Device ID
- *****************************************************************************/
+*  Name: fts_wait_tp_to_valid
+*  Brief:   Read chip id until TP FW become valid,
+*           need call when reset/power on/resume...
+*           1. Read Chip ID per INTERVAL_READ_REG(20ms)
+*           2. Timeout: TIMEOUT_READ_REG(300ms)
+*  Input:
+*  Output:
+*  Return: 0 - Get correct Device ID
+*****************************************************************************/
 int fts_wait_tp_to_valid(struct i2c_client *client)
 {
 	int ret = 0;
@@ -113,12 +113,12 @@ int fts_wait_tp_to_valid(struct i2c_client *client)
 }
 
 /*****************************************************************************
- *  Name: fts_recover_state
- *  Brief: Need execute this function when reset
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_recover_state
+*  Brief: Need execute this function when reset
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 void fts_tp_state_recovery(struct i2c_client *client)
 {
 	/* wait tp stable */
@@ -135,12 +135,12 @@ void fts_tp_state_recovery(struct i2c_client *client)
 
 
 /*****************************************************************************
- *  Name: fts_reset_proc
- *  Brief: Execute reset operation
- *  Input: hdelayms - delay time unit:ms
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_reset_proc
+*  Brief: Execute reset operation
+*  Input: hdelayms - delay time unit:ms
+*  Output:
+*  Return:
+*****************************************************************************/
 int fts_reset_proc(int hdelayms)
 {
 	gpio_direction_output(fts_wq_data->pdata->reset_gpio, 0);
@@ -152,13 +152,13 @@ int fts_reset_proc(int hdelayms)
 }
 
 /*****************************************************************************
- *  Name: fts_irq_disable
- *  Brief: disable irq
- *  Input:
- *   sync:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_irq_disable
+*  Brief: disable irq
+*  Input:
+*   sync:
+*  Output:
+*  Return:
+*****************************************************************************/
 void fts_irq_disable(void)
 {
 	unsigned long irqflags;
@@ -174,12 +174,12 @@ void fts_irq_disable(void)
 }
 
 /*****************************************************************************
- *  Name: fts_irq_enable
- *  Brief: enable irq
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_irq_enable
+*  Brief: enable irq
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 void fts_irq_enable(void)
 {
 	unsigned long irqflags = 0;
@@ -195,12 +195,12 @@ void fts_irq_enable(void)
 }
 
 /*****************************************************************************
- *  Name: fts_input_dev_init
- *  Brief: input dev init
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_input_dev_init
+*  Brief: input dev init
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_input_dev_init(struct i2c_client *client,
 			struct fts_ts_data *data, struct input_dev *input_dev,
 			struct fts_ts_platform_data *pdata)
@@ -261,8 +261,8 @@ free_inputdev:
 }
 
 /*****************************************************************************
- * Power Control
- *****************************************************************************/
+* Power Control
+*****************************************************************************/
 #if FTS_POWER_SOURCE_CUST_EN
 static int fts_power_source_init(struct fts_ts_data *data)
 {
@@ -347,15 +347,15 @@ static int fts_power_source_ctrl(struct fts_ts_data *data, int enable)
 
 
 /*****************************************************************************
- *  Reprot related
- *****************************************************************************/
+*  Reprot related
+*****************************************************************************/
 /*****************************************************************************
- *  Name: fts_release_all_finger
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_release_all_finger
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_release_all_finger(void)
 {
 #if FTS_MT_PROTOCOL_B_EN
@@ -514,11 +514,11 @@ static int fts_input_dev_report_b(struct ts_event *event,
 #endif
 		} else {
 			uppoint++;
+			input_mt_report_slot_state(data->input_dev,
+						MT_TOOL_FINGER, false);
 #if FTS_REPORT_PRESSURE_EN
 			input_report_abs(data->input_dev, ABS_MT_PRESSURE, 0);
 #endif
-			input_mt_report_slot_state(data->input_dev,
-						MT_TOOL_FINGER, false);
 			data->touchs &= ~BIT(event->au8_finger_id[i]);
 			FTS_DEBUG("[B]P%d UP!", event->au8_finger_id[i]);
 		}
@@ -631,12 +631,12 @@ static int fts_input_dev_report_a(struct ts_event *event,
 #endif
 
 /*****************************************************************************
- *  Name: fts_read_touchdata
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_read_touchdata
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_read_touchdata(struct fts_ts_data *data)
 {
 	u8 buf[POINT_READ_BUF] = { 0 };
@@ -729,10 +729,10 @@ static int fts_read_touchdata(struct fts_ts_data *data)
 		event->pressure[i] =
 			(s16) buf[FTS_TOUCH_PRE_POS + FTS_ONE_TCH_LEN * i];
 
-		if (event->area[i] == 0)
+		if (0 == event->area[i])
 			event->area[i] = 0x09;
 
-		if (event->pressure[i] == 0)
+		if (0 == event->pressure[i])
 			event->pressure[i] = 0x3f;
 
 		if ((event->au8_touch_event[i] == 0 ||
@@ -750,12 +750,12 @@ static int fts_read_touchdata(struct fts_ts_data *data)
 }
 
 /*****************************************************************************
- *  Name: fts_report_value
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_report_value
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_report_value(struct fts_ts_data *data)
 {
 	struct ts_event *event = &data->event;
@@ -764,7 +764,7 @@ static void fts_report_value(struct fts_ts_data *data)
 	FTS_DEBUG("point number: %d, touch point: %d", event->point_num,
 			  event->touch_point);
 
-	if (fts_input_dev_report_key_event(event, data) == 0)
+	if (0 == fts_input_dev_report_key_event(event, data))
 		return;
 
 #if FTS_MT_PROTOCOL_B_EN
@@ -779,12 +779,12 @@ static void fts_report_value(struct fts_ts_data *data)
 }
 
 /*****************************************************************************
- *  Name: fts_ts_interrupt
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_interrupt
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static irqreturn_t fts_ts_interrupt(int irq, void *dev_id)
 {
 	struct fts_ts_data *fts_ts = dev_id;
@@ -815,12 +815,12 @@ static irqreturn_t fts_ts_interrupt(int irq, void *dev_id)
 }
 
 /*****************************************************************************
- *  Name: fts_gpio_configure
- *  Brief: Configure IRQ&RESET GPIO
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_gpio_configure
+*  Brief: Configure IRQ&RESET GPIO
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_gpio_configure(struct fts_ts_data *data)
 {
 	int err = 0;
@@ -871,12 +871,12 @@ err_irq_gpio_req:
 
 
 /*****************************************************************************
- *  Name: fts_get_dt_coords
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_get_dt_coords
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_get_dt_coords(struct device *dev, char *name,
 				struct fts_ts_platform_data *pdata)
 {
@@ -918,12 +918,12 @@ static int fts_get_dt_coords(struct device *dev, char *name,
 }
 
 /*****************************************************************************
- *  Name: fts_parse_dt
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_parse_dt
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_parse_dt(struct device *dev, struct fts_ts_platform_data *pdata)
 {
 	int rc;
@@ -998,12 +998,12 @@ static int fts_parse_dt(struct device *dev, struct fts_ts_platform_data *pdata)
 
 #if defined(CONFIG_FB)
 /*****************************************************************************
- *  Name: fb_notifier_callback
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fb_notifier_callback
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fb_notifier_callback(struct notifier_block *self,
 				unsigned long event, void *data)
 {
@@ -1026,12 +1026,12 @@ static int fb_notifier_callback(struct notifier_block *self,
 }
 #elif defined(CONFIG_HAS_EARLYSUSPEND)
 /*****************************************************************************
- *  Name: fts_ts_early_suspend
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_early_suspend
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_ts_early_suspend(struct early_suspend *handler)
 {
 	struct fts_ts_data *data = container_of(handler,
@@ -1042,12 +1042,12 @@ static void fts_ts_early_suspend(struct early_suspend *handler)
 }
 
 /*****************************************************************************
- *  Name: fts_ts_late_resume
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_late_resume
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void fts_ts_late_resume(struct early_suspend *handler)
 {
 	struct fts_ts_data *data = container_of(handler,
@@ -1059,12 +1059,12 @@ static void fts_ts_late_resume(struct early_suspend *handler)
 #endif
 
 /*****************************************************************************
- *  Name: fts_ts_probe
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_probe
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_ts_probe(struct i2c_client *client,
 		const struct i2c_device_id *id)
 {
@@ -1225,12 +1225,12 @@ free_gpio:
 }
 
 /*****************************************************************************
- *  Name: fts_ts_remove
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_remove
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_ts_remove(struct i2c_client *client)
 {
 	struct fts_ts_data *data = i2c_get_clientdata(client);
@@ -1289,12 +1289,12 @@ static int fts_ts_remove(struct i2c_client *client)
 }
 
 /*****************************************************************************
- *  Name: fts_ts_suspend
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_suspend
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_ts_suspend(struct device *dev)
 {
 	struct fts_ts_data *data = dev_get_drvdata(dev);
@@ -1350,12 +1350,12 @@ static int fts_ts_suspend(struct device *dev)
 }
 
 /*****************************************************************************
- *  Name: fts_ts_resume
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_resume
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int fts_ts_resume(struct device *dev)
 {
 	struct fts_ts_data *data = dev_get_drvdata(dev);
@@ -1413,15 +1413,15 @@ static int fts_ts_resume(struct device *dev)
 }
 
 /*****************************************************************************
- * I2C Driver
- *****************************************************************************/
+* I2C Driver
+*****************************************************************************/
 static const struct i2c_device_id fts_ts_id[] = {
 	{FTS_DRIVER_NAME, 0},
 	{},
 };
 MODULE_DEVICE_TABLE(i2c, fts_ts_id);
 
-static const struct of_device_id fts_match_table[] = {
+static struct of_device_id fts_match_table[] = {
 	{ .compatible = "focaltech,fts", },
 	{ },
 };
@@ -1438,12 +1438,12 @@ static struct i2c_driver fts_ts_driver = {
 };
 
 /*****************************************************************************
- *  Name: fts_ts_init
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_init
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static int __init fts_ts_init(void)
 {
 	int ret = 0;
@@ -1458,12 +1458,12 @@ static int __init fts_ts_init(void)
 }
 
 /*****************************************************************************
- *  Name: fts_ts_exit
- *  Brief:
- *  Input:
- *  Output:
- *  Return:
- *****************************************************************************/
+*  Name: fts_ts_exit
+*  Brief:
+*  Input:
+*  Output:
+*  Return:
+*****************************************************************************/
 static void __exit fts_ts_exit(void)
 {
 	i2c_del_driver(&fts_ts_driver);

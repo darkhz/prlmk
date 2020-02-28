@@ -3,7 +3,6 @@
  * FocalTech fts TouchScreen driver.
  *
  * Copyright (c) 2010-2017, Focaltech Ltd. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -55,7 +54,7 @@
 #define FTS_CHIP_IDC            ((FTS_CHIP_TYPE & FLAGBIT(FLAG_IDC_BIT)) == FLAGBIT(FLAG_IDC_BIT))
 #define FTS_HID_SUPPORTTED      ((FTS_CHIP_TYPE & FLAGBIT(FLAG_HID_BIT)) == FLAGBIT(FLAG_HID_BIT))
 
-#define FTS_CHIP_TYPE_MAPPING {{0x02,0x54, 0x22, 0x54, 0x22, 0x00, 0x00, 0x54, 0x2C}}
+#define FTS_CHIP_TYPE_MAPPING {{0x02, 0x54, 0x22, 0x54, 0x22, 0x00, 0x00, 0x54, 0x2C } }
 
 #define I2C_BUFFER_LENGTH_MAXINUM           256
 #define FILE_NAME_LENGTH                    128
@@ -67,21 +66,41 @@
 #define FTS_CMD_START2                      0xAA
 #define FTS_CMD_READ_ID                     0x90
 /*register address*/
+#define FTS_REG_INT_CNT                     0x8F
+#define FTS_REG_FLOW_WORK_CNT               0x91
+#define FTS_REG_WORKMODE                    0x00
+#define FTS_REG_WORKMODE_FACTORY_VALUE      0x40
+#define FTS_REG_WORKMODE_WORK_VALUE         0x00
+#define FTS_REG_ESDCHECK_DISABLE            0x8D
 #define FTS_REG_CHIP_ID                     0xA3
 #define FTS_REG_CHIP_ID2                    0x9F
-
+#define FTS_REG_POWER_MODE                  0xA5
+#define FTS_REG_POWER_MODE_SLEEP_VALUE      0x03
 #define FTS_REG_FW_VER                      0xA6
-
+#define FTS_REG_VENDOR_ID                   0xA8
+#define FTS_REG_LCD_BUSY_NUM                0xAB
+#define FTS_REG_FACE_DEC_MODE_EN            0xB0
+#define FTS_REG_FACE_DEC_MODE_STATUS        0x01
+#define FTS_REG_IDE_PARA_VER_ID             0xB5
+#define FTS_REG_IDE_PARA_STATUS             0xB6
+#define FTS_REG_GLOVE_MODE_EN               0xC0
+#define FTS_REG_COVER_MODE_EN               0xC1
+#define FTS_REG_CHARGER_MODE_EN             0x8B
+#define FTS_REG_GESTURE_EN                  0xD0
+#define FTS_REG_GESTURE_OUTPUT_ADDRESS      0xD3
+#define FTS_REG_MODULE_ID                   0xE3
+#define FTS_REG_LIC_VER                     0xE4
+#define FTS_REG_ESD_SATURATE                0xED
 
 #define FTS_SYSFS_ECHO_ON(buf)      (buf[0] == '1')
 #define FTS_SYSFS_ECHO_OFF(buf)     (buf[0] == '0')
 
 #define kfree_safe(pbuf) do {\
     if (pbuf) {\
-        kfree(pbuf);\
-        pbuf = NULL;\
-    }\
-} while(0)
+		kfree(pbuf);\
+		pbuf = NULL;\
+	} \
+} while (0)
 
 /*****************************************************************************
 *  Alternative mode (When something goes wrong, the modules may be able to solve the problem.)

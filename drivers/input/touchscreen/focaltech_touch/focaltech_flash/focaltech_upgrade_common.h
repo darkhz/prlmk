@@ -1,42 +1,42 @@
 /************************************************************************
- * Copyright (C) 2010-2017, Focaltech Systems (R)£¬All Rights Reserved.
- *
- * File Name: focaltech_upgrade_common.h
- *
- *    Author: fupeipei
- *
- *   Created: 2016-08-16
- *
- *  Abstract:
- *
- ************************************************************************/
+* Copyright (C) 2010-2017, Focaltech Systems (R)£¬All Rights Reserved.
+*
+* File Name: focaltech_upgrade_common.h
+*
+*    Author: fupeipei
+*
+*   Created: 2016-08-16
+*
+*  Abstract:
+*
+************************************************************************/
 #ifndef __LINUX_FOCALTECH_UPGRADE_COMMON_H__
 #define __LINUX_FOCALTECH_UPGRADE_COMMON_H__
 
 /*****************************************************************************
- * 1.Included header files
- *****************************************************************************/
+* 1.Included header files
+*****************************************************************************/
 #include "../focaltech_flash.h"
 
 /*****************************************************************************
- * Private constant and macro definitions using #define
- *****************************************************************************/
+* Private constant and macro definitions using #define
+*****************************************************************************/
 
 /*****************************************************************************
- * Private enumerations, structures and unions using typedef
- *****************************************************************************/
+* Private enumerations, structures and unions using typedef
+*****************************************************************************/
 
 /*****************************************************************************
- * Static variables
- *****************************************************************************/
+* Static variables
+*****************************************************************************/
 
 /*****************************************************************************
- * Global variable or extern global variabls/functions
- *****************************************************************************/
+* Global variable or extern global variabls/functions
+*****************************************************************************/
 
 /*****************************************************************************
- * Static function prototypes
- *****************************************************************************/
+* Static function prototypes
+*****************************************************************************/
 int fts_ctpm_erase_flash(struct i2c_client *client);
 int fts_ctpm_pramboot_ecc(struct i2c_client *client);
 bool fts_ctpm_check_run_state(struct i2c_client *client, int state);
