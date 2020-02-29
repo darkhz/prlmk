@@ -82,23 +82,23 @@ static ssize_t fts_gesture_buf_show(struct device *dev, struct device_attribute 
 static ssize_t fts_gesture_buf_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
 
 /* sysfs gesture node
- *   read example: cat  fts_gesture_mode		---read gesture mode
- *   write example:echo 01 > fts_gesture_mode   ---write gesture mode to 01
+ *   read example: cat  wakeup_gesture		---read gesture mode
+ *   write example:echo 01 > wakeup_gesture   ---write gesture mode to 01
  *
  */
-static DEVICE_ATTR (fts_gesture_mode, S_IRUGO | S_IWUSR, fts_gesture_show, fts_gesture_store);
+static DEVICE_ATTR (wakeup_gesture, S_IRUGO | S_IWUSR, fts_gesture_show, fts_gesture_store);
 /*
- *   read example: cat fts_gesture_buf		---read gesture buf
+ *   read example: cat wakeup_gesture_buf		---read gesture buf
  */
-static DEVICE_ATTR (fts_gesture_buf, S_IRUGO | S_IWUSR, fts_gesture_buf_show, fts_gesture_buf_store);
-static struct attribute *fts_gesture_mode_attrs[] = {
-	&dev_attr_fts_gesture_mode.attr,
-	&dev_attr_fts_gesture_buf.attr,
+static DEVICE_ATTR (wakeup_gesture_buf, S_IRUGO | S_IWUSR, fts_gesture_buf_show, fts_gesture_buf_store);
+static struct attribute *wakeup_gesture_attrs[] = {
+	&dev_attr_wakeup_gesture.attr,
+	&dev_attr_wakeup_gesture_buf.attr,
 	NULL,
 };
 
 static struct attribute_group fts_gesture_group = {
-	.attrs = fts_gesture_mode_attrs,
+	.attrs = wakeup_gesture_attrs,
 };
 
 /************************************************************************
