@@ -34,7 +34,6 @@
 *****************************************************************************/
 #include "focaltech_core.h"
 #include "focaltech_flash.h"
-#include <linux/hqsysfs.h>
 #if defined(CONFIG_FB)
 #include <linux/notifier.h>
 #include <linux/fb.h>
@@ -1302,7 +1301,6 @@ int ctp_hw_info(struct fts_ts_data *ts_data, struct i2c_client *client)
 			strcat(tp_info_summary, tp_temp_info);
 			strcat(tp_info_summary, "\0");
 			FTS_INFO("%s", tp_info_summary);
-			hq_regiser_hw_info(HWID_CTP, tp_info_summary);
 			break;
 		}
 	}

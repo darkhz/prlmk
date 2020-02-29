@@ -24,7 +24,6 @@
 #include <linux/pinctrl/consumer.h>
 #include <linux/input/mt.h>
 #include "gt9xx.h"
-#include <linux/hqsysfs.h>
 
 #define GOODIX_COORDS_ARR_SIZE	4
 #define PROP_NAME_SIZE		24
@@ -1736,7 +1735,6 @@ void ctp_vendor_info(struct i2c_client *client, struct goodix_fw_info *gt_fw_inf
 		sprintf(temp, "%x", fw_info->cfg_ver);
 		strcat(tp_info_summary, temp);
 		strcat(tp_info_summary, "\0");
-		hq_regiser_hw_info(HWID_CTP, tp_info_summary);
 }
 
 /**
