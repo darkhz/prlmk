@@ -1787,9 +1787,12 @@ static const struct file_operations wakeup_gesture_ops = {
 int gtp_create_wakeup_gesture_proc(struct i2c_client *client, struct goodix_ts_data *ts)
 {
 	int ret = 0;
+	struct proc_dir_entry *parent;
+
+	parent=proc_mkdir("touchpanel", NULL);
 
 	gtp_wakeup_gesture_proc = proc_create(GT9XX_WAKEUP_GESTURE_PROC, 0666,
-						  NULL, &wakeup_gesture_ops);
+						  parent, &wakeup_gesture_ops);
 		if (!gtp_wakeup_gesture_proc)
 			dev_err(&client->dev, "create_proc_entry %s failed\n",
 				GT9XX_WAKEUP_GESTURE_PROC);
