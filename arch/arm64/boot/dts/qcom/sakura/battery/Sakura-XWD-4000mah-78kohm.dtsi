@@ -1,6 +1,7 @@
 
 qcom,3464413_huaqin_d1ssun_4000mah_averaged_masterslave_may31st2018 {
 	qcom,max-voltage-uv = <4400000>;
+	qcom,fastchg-current-ma = <3500>;
 	qcom,nom-batt-capacity-mah = <4000>;
 	qcom,batt-id-kohm = <78>;
 	qcom,battery-beta = <3380>;

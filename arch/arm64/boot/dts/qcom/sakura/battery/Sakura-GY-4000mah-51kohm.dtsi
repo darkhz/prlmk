@@ -1,6 +1,7 @@
 
 qcom,3299735_huaqin_d1scos_4000mah_averaged_masterslave_feb20th2018 {
 	qcom,max-voltage-uv = <4400000>;
+	qcom,fastchg-current-ma = <3500>;
 	qcom,nom-batt-capacity-mah = <4000>;
 	qcom,batt-id-kohm = <51>;
 	qcom,battery-beta = <3380>;
