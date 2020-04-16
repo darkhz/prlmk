@@ -84,7 +84,7 @@ struct fpc1020_data {
 	struct pinctrl_state *pinctrl_state[ARRAY_SIZE(pctl_names)];
 	struct regulator *vreg[ARRAY_SIZE(vreg_conf)];
 
-	struct wakeup_source ttw_wl;
+    struct wakeup_source ttw_wl;
 	int irq_gpio;
 	int rst_gpio;
 	struct mutex lock; /* To set/get exported values in sysfs */
@@ -143,7 +143,7 @@ found:
 					name, rc);
 		}
 
-		rc = regulator_set_load(vreg, vreg_conf[i].ua_load);
+        rc = regulator_set_load(vreg, vreg_conf[i].ua_load);
 		if (rc < 0)
 			dev_err(dev, "Unable to set current on %s, %d\n",
 					name, rc);
@@ -170,6 +170,13 @@ found:
 	return rc;
 }
 
+/**
+ * sysfs node for controlling clocks.
+ *
+ * This is disabled in platform variant of this driver but kept for
+ * backwards compatibility. Only prints a debug print that it is
+ * disabled.
+ */
 static ssize_t clk_enable_set(struct device *dev,
 	struct device_attribute *attr,
 	const char *buf, size_t count)
@@ -181,6 +188,18 @@ static ssize_t clk_enable_set(struct device *dev,
 }
 static DEVICE_ATTR(clk_enable, S_IWUSR, NULL, clk_enable_set);
 
+/**
+ * Will try to select the set of pins (GPIOS) defined in a pin control node of
+ * the device tree named @p name.
+ *
+ * The node can contain several eg. GPIOs that is controlled when selecting it.
+ * The node may activate or deactivate the pins it contains, the action is
+ * defined in the device tree node itself and not here. The states used
+ * internally is fetched at probe time.
+ *
+ * @see pctl_names
+ * @see fpc1020_probe
+ */
 static int select_pin_ctl(struct fpc1020_data *fpc1020, const char *name)
 {
 	size_t i;
@@ -458,7 +477,7 @@ static ssize_t compatible_all_set(struct device *dev,
 	int irqf;
 	struct  fpc1020_data *fpc1020 = dev_get_drvdata(dev);
 	dev_err(dev, "compatible all enter %d\n", fpc1020->compatible_enabled);
-	if (!strncmp(buf, "enable", strlen("enable")) && fpc1020->compatible_enabled != 1) {
+	if (!strncmp(buf, "enable", strlen("enable")) && fpc1020->compatible_enabled != 1){
 		rc = fpc1020_request_named_gpio(fpc1020, "fpc,gpio_irq",
 			&fpc1020->irq_gpio);
 		if (rc)
@@ -528,8 +547,9 @@ static ssize_t compatible_all_set(struct device *dev,
 		(void)set_clks(fpc1020, false);
 #endif
 	}
-	} else if (!strncmp(buf, "disable", strlen("disable")) && fpc1020->compatible_enabled != 0) {
-		if (gpio_is_valid(fpc1020->irq_gpio)) {
+	}else if (!strncmp(buf, "disable", strlen("disable")) && fpc1020->compatible_enabled != 0){
+		if (gpio_is_valid(fpc1020->irq_gpio))
+		{
 			devm_gpio_free(dev, fpc1020->irq_gpio);
 			pr_info("remove irq_gpio success\n");
 		}
@@ -584,7 +604,7 @@ static irqreturn_t fpc1020_irq_handler(int irq, void *handle)
 
 
 	if (atomic_read(&fpc1020->wakeup_enabled)) {
-		__pm_wakeup_event(&fpc1020->ttw_wl,
+        __pm_wakeup_event(&fpc1020->ttw_wl,
 					msecs_to_jiffies(FPC_TTW_HOLD_TIME));
 	}
 
@@ -726,7 +746,7 @@ static int fpc1020_remove(struct platform_device *pdev)
 
 	sysfs_remove_group(&pdev->dev.kobj, &attribute_group);
 	mutex_destroy(&fpc1020->lock);
-	wakeup_source_trash(&fpc1020->ttw_wl);
+    wakeup_source_trash(&fpc1020->ttw_wl);
 	(void)vreg_setup(fpc1020, "vdd_ana", false);
 	(void)vreg_setup(fpc1020, "vdd_io", false);
 	(void)vreg_setup(fpc1020, "vcc_spi", false);
