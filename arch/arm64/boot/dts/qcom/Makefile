@@ -185,7 +185,8 @@ ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 		sxr1130-usbc-external-codec-pm660a-mtp-overlay.dtbo \
 		sxr1130-usbc-mtp-overlay.dtbo \
 		sxr1130-usbc-pm660a-mtp-overlay.dtbo \
-		sxr1130-qrd-overlay.dtbo
+		sxr1130-qrd-overlay.dtbo \
+		sxr1130-svr-overlay.dtbo
 
 sdm670-cdp-overlay.dtbo-base := sdm670.dtb
 sdm670-mtp-overlay.dtbo-base := sdm670.dtb
@@ -260,6 +261,7 @@ sxr1130-usbc-external-codec-pm660a-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-usbc-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-usbc-pm660a-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-qrd-overlay.dtbo-base := sxr1130.dtb
+sxr1130-svr-overlay.dtbo-base := sxr1130.dtb
 
 else
 dtb-$(CONFIG_ARCH_SDM670) += sdm670-rumi.dtb \
@@ -331,7 +333,8 @@ dtb-$(CONFIG_ARCH_SDM670) += sdm670-rumi.dtb \
 	sxr1130-usbc-external-codec-pm660a-mtp.dtb \
 	sxr1130-usbc-mtp.dtb \
 	sxr1130-usbc-pm660a-mtp.dtb \
-	sxr1130-qrd.dtb
+	sxr1130-qrd.dtb \
+	sxr1130-svr.dtb
 endif
 
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
@@ -469,7 +472,6 @@ msm8953-ext-codec-mtp-overlay.dtbo-base := msm8953.dtb \
 msm8953-ext-codec-rcm-overlay.dtbo-base := msm8953.dtb \
 	apq8053.dtb
 msm8953-cdp-1200p-overlay.dtbo-base := msm8953.dtb
-
 sdm450-cdp-s2-overlay.dtbo-base := sdm450-pmi632.dtb \
 	sdm632.dtb \
 	sdm632-pm8004.dtb \
@@ -482,7 +484,6 @@ sdm450-mtp-s3-overlay.dtbo-base := sdm450-pmi632.dtb \
 sdm450-qrd-sku4-overlay.dtbo-base := sdm450-pmi632.dtb \
 	sdm632.dtb \
 	sdm632-pm8004.dtb
-
 sdm632-rumi-overlay.dtbo-base := sdm632.dtb
 sdm632-ext-codec-cdp-s3-overlay.dtbo-base := sdm632.dtb \
 	sdm632-pm8004.dtb
@@ -570,8 +571,8 @@ dtb-$(CONFIG_ARCH_MSM8909) += msm8909-pm8916-mtp.dtb \
 	apq8009-lat-v1.0.dtb \
 	sdw3100-msm8909w-1gb-wtp.dtb \
 	sdw2500-apq8009w-wtp.dtb \
-	sdw2500-msm8909w-wtp.dtb
-
+	sdw2500-msm8909w-wtp.dtb \
+	msm8905-qrd-skub_qseev4.dtb
 
 dtb-$(CONFIG_ARCH_SDM450) += sdm450-rcm.dtb \
 	sdm450-cdp.dtb \
@@ -586,8 +587,7 @@ dtb-$(CONFIG_ARCH_SDM450) += sdm450-rcm.dtb \
 	sdm450-pmi632-cdp-s2.dtb \
 	sdm450-pmi632-mtp-s3.dtb \
 	sda450-pmi632-cdp-s2.dtb \
-	sda450-pmi632-mtp-s3.dtb \
-        sdm450-no-pmi-mtp.dtb
+	sda450-pmi632-mtp-s3.dtb
 
 dtb-$(CONFIG_ARCH_SDM632) += sdm632-rumi.dtb \
 	sdm632-cdp-s2.dtb \

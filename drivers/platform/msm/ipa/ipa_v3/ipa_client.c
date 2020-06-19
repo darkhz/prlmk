@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -756,12 +756,13 @@ int ipa3_request_gsi_channel(struct ipa_request_gsi_channel_params *params,
 		if (ipa_ep_idx >= ipa3_ctx->ipa_num_pipes ||
 			ipa3_ctx->ep[ipa_ep_idx].valid == 0) {
 			IPAERR("bad parm.\n");
-			return -EINVAL;
+			result = -EINVAL;
+			goto ipa_cfg_ep_fail;
 		}
 		result = ipa3_cfg_ep_cfg(ipa_ep_idx, &params->ipa_ep_cfg.cfg);
 		if (result) {
 			IPAERR("fail to configure QMB.\n");
-			return result;
+			goto ipa_cfg_ep_fail;
 		}
 	}
 
@@ -903,6 +904,7 @@ int ipa3_set_usb_max_packet_size(
 		&dev_scratch);
 	if (gsi_res != GSI_STATUS_SUCCESS) {
 		IPAERR("Error writing device scratch: %d\n", gsi_res);
+		IPA_ACTIVE_CLIENTS_DEC_SIMPLE();
 		return -EFAULT;
 	}
 	IPA_ACTIVE_CLIENTS_DEC_SIMPLE();
@@ -1231,7 +1233,8 @@ static int ipa3_stop_ul_chan_with_data_drain(u32 qmi_req_id,
 	if (!stop_in_proc)
 		goto exit;
 
-	if (remove_delay && ep->ep_delay_set == true) {
+	/* Remove delay only if stop channel success*/
+	if (remove_delay && ep->ep_delay_set == true && !stop_in_proc) {
 		memset(&ep_cfg_ctrl, 0, sizeof(struct ipa_ep_cfg_ctrl));
 		ep_cfg_ctrl.ipa_ep_delay = false;
 		result = ipa3_cfg_ep_ctrl(clnt_hdl,
@@ -1312,7 +1315,7 @@ disable_force_clear_and_exit:
 	if (should_force_clear)
 		ipa3_disable_force_clear(qmi_req_id);
 exit:
-	if (remove_delay && ep->ep_delay_set == true) {
+	if (remove_delay && ep->ep_delay_set == true && !stop_in_proc) {
 		memset(&ep_cfg_ctrl, 0, sizeof(struct ipa_ep_cfg_ctrl));
 		ep_cfg_ctrl.ipa_ep_delay = false;
 		result = ipa3_cfg_ep_ctrl(clnt_hdl,

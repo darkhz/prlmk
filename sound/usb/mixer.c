@@ -801,9 +801,7 @@ static int __check_input_term(struct mixer_build *state, int id,
 			term->name = uac_mixer_unit_iMixer(d);
 			return 0;
 		}
-
 		case UAC_SELECTOR_UNIT:
-
 		/* UAC3_MIXER_UNIT_V3 */
 		case UAC2_CLOCK_SELECTOR:
 		/* UAC3_CLOCK_SOURCE */ {
@@ -1063,6 +1061,14 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
 						(cval->control << 8) | 2, 7936);
 		break;
 
+	case USB_ID(0x0495, 0x3042): /* ESS Technology Asus USB DAC */
+		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
+			strstr(kctl->id.name, "Capture Volume") != NULL) {
+			cval->min >>= 8;
+			cval->max = 0;
+			cval->res = 1;
+		}
+		break;
 	}
 }
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2010, 2013-2019 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2009-2010, 2013-2020 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -29,7 +29,7 @@
 #include <linux/clk.h>
 #include <linux/of_device.h>
 
-#if defined(CONFIG_CNSS)
+#if defined(CONFIG_CNSS_PCI)
 #include <net/cnss.h>
 #endif
 
@@ -373,7 +373,7 @@ static const struct rfkill_ops bluetooth_power_rfkill_ops = {
 	.set_block = bluetooth_toggle_radio,
 };
 
-#if defined(CONFIG_CNSS) && defined(CONFIG_CLD_LL_CORE)
+#if defined(CONFIG_CNSS_PCI)
 static ssize_t enable_extldo(struct device *dev, struct device_attribute *attr,
 			char *buf)
 {
@@ -509,7 +509,7 @@ err:
 static int bt_dt_parse_clk_info(struct device *dev,
 		struct bt_power_clk_data **clk_data)
 {
-	int ret = -EINVAL;
+	int ret = 0;
 	struct bt_power_clk_data *clk = NULL;
 	struct device_node *np = dev->of_node;
 
@@ -546,7 +546,7 @@ static int bt_dt_parse_clk_info(struct device *dev,
 
 		*clk_data = clk;
 	} else {
-		BT_PWR_ERR("clocks is not provided in device tree");
+		BT_PWR_INFO("clocks is not provided in device tree");
 	}
 
 err:
@@ -567,7 +567,7 @@ static int bt_power_populate_dt_pinfo(struct platform_device *pdev)
 			of_get_named_gpio(pdev->dev.of_node,
 						"qca,bt-reset-gpio", 0);
 		if (bt_power_pdata->bt_gpio_sys_rst < 0)
-			BT_PWR_ERR("bt-reset-gpio not provided in device tree");
+			BT_PWR_INFO("bt-reset-gpio not provided in devicetree");
 
 		rc = bt_dt_parse_vreg_info(&pdev->dev,
 					&bt_power_pdata->bt_vdd_core,
