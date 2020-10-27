@@ -23,6 +23,7 @@
 #include <linux/cpufreq.h>
 #include <linux/list_sort.h>
 #include <linux/jiffies.h>
+#include <asm-generic/bug.h>
 #include <linux/sched/core_ctl.h>
 #include <trace/events/sched.h>
 #include "sched.h"
@@ -2148,7 +2149,7 @@ static struct sched_cluster *alloc_new_cluster(const struct cpumask *cpus)
 
 	cluster = kzalloc(sizeof(struct sched_cluster), GFP_ATOMIC);
 	if (!cluster) {
-		__WARN_printf("Cluster allocation failed.  Possible bad scheduling\n");
+		//__WARN_printf("Cluster allocation failed.  Possible bad scheduling\n");
 		return NULL;
 	}
 

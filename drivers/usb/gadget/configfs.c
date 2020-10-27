@@ -15,7 +15,7 @@
 #include <linux/usb/ch9.h>
 
 #ifdef CONFIG_USB_F_NCM
-#include <function/u_ncm.h>
+#include "function/u_ncm.h"
 #endif
 
 #include <soc/qcom/boot_stats.h>

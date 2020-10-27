@@ -4,6 +4,7 @@
 
 # Object files in subdirectories
 
+ccflags-y += -Idrivers/usb/gadget/function/
 obj-$(CONFIG_USB)		+= core/
 obj-$(CONFIG_USB_SUPPORT)	+= phy/
 

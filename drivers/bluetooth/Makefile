@@ -1,3 +1,4 @@
+ccflags-y += -Idrivers/bluetooth
 #
 # Makefile for the Linux Bluetooth HCI device drivers.
 #
