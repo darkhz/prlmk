@@ -8,7 +8,9 @@ Primarily suitable for devices with 4GB ram or less.
  - Disable all other low-memory-killers, if previously enabled, in the defconfig, for example:
 > CONFIG_ANDROID_LOW_MEMORY_KILLER=n
 
-> CONFIG_SLMK=n
+> CONFIG_ANDROID_SIMPLE_LMK=n
+
+- Enable CONFIG_PROCESS_RECLAIM=y in defconfig
 
  Do not disable the oom killer.
 
