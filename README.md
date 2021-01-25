@@ -65,6 +65,6 @@ This process, I will acknowledge, is indeed tedious, and I plan to improve debug
 
 # credits
 
-- Minchan Kim for the process_reclaim driver, and
+- Minchan Kim for the process_reclaim driver
 - kerneltoast for some useful codebits from his excellent Simple LMK:
 (https://github.com/kerneltoast/simple_lmk)
