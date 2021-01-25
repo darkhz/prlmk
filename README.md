@@ -10,9 +10,9 @@ Primarily suitable for devices with 4GB ram or less.
 
 > CONFIG_ANDROID_SIMPLE_LMK=n
 
-- Enable CONFIG_PROCESS_RECLAIM=y in defconfig
-
  Do not disable the oom killer.
+ 
+ - Enable CONFIG_PROCESS_RECLAIM=y in defconfig
 
 - Make sure ZRAM/SWAP is enabled, otherwise you may encounter serious problems when using the driver.A ZRAM disksize/SWAP size of 1GB or higher is preferred.
 
