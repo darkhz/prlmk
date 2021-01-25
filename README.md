@@ -31,7 +31,7 @@ Primarily suitable for devices with 4GB ram or less.
 - We keep reclaiming pages if they are above defined threshold
   (`free_swap_limit`).
 
-- Once the swap goes below a free_swap_limit, we start to collect tasks to kill.
+- Once the swap goes below `free_swap_limit`, we start to collect tasks to kill.
 
 - We then sort those tasks based on their last accessed `stime+utime`,
   and then start killing the tasks with the lowest `stime+utime`.We stop
