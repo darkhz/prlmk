@@ -70,8 +70,8 @@ This process, I will acknowledge, is indeed tedious, and I plan to improve debug
 
 # credits
 
-- Minchan Kim for the process_reclaim driver
-- Sultan AlSawaf (kerneltoast) for mm-related commits and some useful codebits from his excellent Simple LMK:
+- Minchan Kim and Vinayak Menon for the process_reclaim driver
+- Sultan AlSawaf (kerneltoast) for mm-related commits and some useful codebits from his excellent Simple LMK.
 https://github.com/kerneltoast/simple_lmk
 - Diab Neiroukh (lazerl0rd) for his suggestions and advice to make the code and commits readable.
 https://github.com/lazerl0rd/
