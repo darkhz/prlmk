@@ -12,8 +12,11 @@ Primarily suitable for devices with 4GB ram or less.
 
  Do not disable the oom killer.
  
- - Enable CONFIG_PROCESS_RECLAIM=y in defconfig
-
+ - Enable the following in the defconfig:
+ > CONFIG_PROCESS_RECLAIM=y
+ 
+ > CONFIG_ANDROID_PR_KILL=y
+ 
 - Make sure ZRAM/SWAP is enabled, otherwise you may encounter serious problems when using the driver.A ZRAM disksize/SWAP size of 1GB or higher is preferred.
 
 - Apply all the process_reclaim commits from the branch that correlates to your kernel version and compile.
