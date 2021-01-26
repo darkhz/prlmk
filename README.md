@@ -45,13 +45,7 @@ Primarily suitable for devices with 4GB ram or less.
 
   I specifically sorted according to `acct_timexpd`,see kernel/tsacct.c for
   more details(CONFIG_TASK_XACCT).
-
-# todo
-
-- Cleanup the code. It is messy as of now. A rewrite may be required.
-- Simplify the tunables and tunable names.
-- Make it easier to debug.
-
+  
 # additional info
 
 The default settings in this driver are already suitable for 3GB and 4GB RAM devices, there is no need to extensively tune it.
@@ -67,6 +61,13 @@ To find out what free_file_limit value is suitable for your device:
 - Under severe memory pressure, the device will freeze.When this happens, look at the `Active(file)` field at the exact time of the freeze. This will be your free_file_limit value. Increase the value a little bit just to be on the safe side.
 
 This process, I will acknowledge, is indeed tedious, and I plan to improve debugging it in the future. If this is too difficult for you to debug, you can stick to the defaults, or switch to another low-memory-killer, like slmk for example.
+
+
+# todo
+
+- Cleanup the code. It is messy as of now. A rewrite may be required.
+- Simplify the tunables and tunable names.
+- Make it easier to debug.
 
 # credits
 
