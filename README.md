@@ -26,7 +26,7 @@ Primarily suitable for devices with 4GB ram or less.
 - Keep important tasks like Android services running
   until they are closed by the user.
 
-- Kill apps as little as possible,or specifically,killing apps based
+- Kill apps as little as possible, or specifically,killing apps based
   on the total time spent on it.This means that, apps with larger usage
   time get killed more rarely, and apps with lesser usage times get
   killed frequently.
