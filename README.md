@@ -65,7 +65,6 @@ This process, I will acknowledge, is indeed tedious, and I plan to improve debug
 
 # todo
 
-- Cleanup the code. It is messy as of now. A rewrite may be required.
 - Simplify the tunables and tunable names.
 - Make it easier to debug.
 
