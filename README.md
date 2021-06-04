@@ -10,16 +10,13 @@ Primarily suitable for devices with 4GB ram or less.
 
 > CONFIG_ANDROID_SIMPLE_LMK=n
 
- Do not disable the oom killer.
- 
  - Enable the following in the defconfig:
- > CONFIG_PROCESS_RECLAIM=y
+ > CONFIG_PRLMK=y
  
- > CONFIG_ANDROID_PR_KILL=y
- 
-- Make sure ZRAM/SWAP is enabled, otherwise you may encounter serious problems when using the driver.A ZRAM disksize/SWAP size of 1GB or higher is preferred.
+- Make sure ZRAM/SWAP is enabled, otherwise you may encounter serious problems when using the driver. 
+  A ZRAM disksize/SWAP size of 1GB or higher is preferred.
 
-- Apply all the process_reclaim commits from the branch that correlates to your kernel version and compile.
+- Apply all the process_reclaim and prlmk commits from the branch that correlates to your kernel version and compile.
 
 # objective
 
@@ -27,7 +24,7 @@ Primarily suitable for devices with 4GB ram or less.
   until they are closed by the user.
 
 - Kill apps as little as possible, or specifically,killing apps based
-  on the total time spent on it.This means that, apps with larger usage
+  on the total time spent on it. This means that, apps with larger usage
   time get killed more rarely, and apps with lesser usage times get
   killed frequently.
 
@@ -43,30 +40,20 @@ Primarily suitable for devices with 4GB ram or less.
   killing tasks once the number of swap pages are above the threshold
   (`free_swap_limit`).
 
+- If the number of active file pages go below `free_file_limit`, it means that a
+  memory critical situtation has occured, and tasks will be killed more aggressively.
+
   I specifically sorted according to `acct_timexpd`,see kernel/tsacct.c for
-  more details(CONFIG_TASK_XACCT).
+  more details (CONFIG_TASK_XACCT).
   
 # additional info
 
 The default settings in this driver are already suitable for 3GB and 4GB RAM devices, there is no need to extensively tune it.
 
-Should you feel the need to tune it, however, pay careful attention to the free_file_limit
-tunable, since this determines at what ACTIVE file page size (in KB), the driver will see the memory situation in the device as critical.
+Should you feel the need to tune it, however, enable the DEBUG option in the code, like this:
+> #define DEBUG 1
 
-To find out what free_file_limit value is suitable for your device:
-
-- Set free_file_limit to 0.
-- You will have to create a situation where memory pressure is high and filepages, especially active filepages are continuously depleting, which you can do by launching heavy apps and switching between them constantly.
-- While doing the above step, keep an eye on /proc/meminfo, especially at the `Active(file)` field.You can launch an adb instance, and execute `watch -n1 cat /proc/meminfo`, and redirect it to a file for reference.
-- Under severe memory pressure, the device will freeze.When this happens, look at the `Active(file)` field at the exact time of the freeze. This will be your free_file_limit value. Increase the value a little bit just to be on the safe side.
-
-This process, I will acknowledge, is indeed tedious, and I plan to improve debugging it in the future. If this is too difficult for you to debug, you can stick to the defaults, or switch to another low-memory-killer, like slmk for example.
-
-
-# todo
-
-- Simplify the tunables and tunable names.
-- Make it easier to debug.
+and compile and boot the kernel. Try to stress memory as much as possible, by loading lots of applications and/or using a memory stress-tester tool, and carefully analyze dmesg and the log messages that follow. This will help to fine-tune free_file_limit and free_swap_limit.
 
 # credits
 
