@@ -36,7 +36,7 @@ Primarily suitable for devices with 4GB ram or less.
 - Once the swap goes below `free_swap_limit`, we start to collect tasks to kill.
 
 - We then sort those tasks based on their last accessed `stime+utime`,
-  and then start killing the tasks with the lowest `stime+utime`.We stop
+  and then start killing the tasks with the lowest `stime+utime`. We stop
   killing tasks once the number of swap pages are above the threshold
   (`free_swap_limit`).
 
