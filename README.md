@@ -43,7 +43,7 @@ Primarily suitable for devices with 4GB ram or less.
 - If the number of active file pages go below `free_file_limit`, it means that a
   memory critical situtation has occured, and tasks will be killed more aggressively.
 
-  I specifically sorted according to `acct_timexpd`,see kernel/tsacct.c for
+  I specifically sorted according to `acct_timexpd`, see kernel/tsacct.c for
   more details (CONFIG_TASK_XACCT).
   
 # additional info
